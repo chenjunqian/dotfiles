@@ -1,6 +1,5 @@
 --[[
 lvim is the global options object
-
 Linters should be
 filled in as strings with either
 a global executable or a path to
@@ -11,7 +10,7 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
--- lvim.colorscheme = "onedarker"
+lvim.colorscheme = "material"
 
 lvim.leader = "space"
 -- add your own keymapping
@@ -49,8 +48,9 @@ lvim.builtin.lualine.style = "default"
 lvim.transparent_window = true
 vim.opt.cmdheight = 1
 vim.opt.wrap = true
+vim.g.material_style = "oceanic"
 
 lvim.plugins = {
   { "lunarvim/colorschemes" },
-  { "navarasu/onedark.nvim" },
+  { "marko-cerovac/material.nvim" },
 }
