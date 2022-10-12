@@ -43,7 +43,7 @@ lvim.builtin.treesitter.ensure_installed = {
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
-lvim.builtin.treesitter.autotag = true
+lvim.builtin.treesitter.autotag.enable = true
 lvim.builtin.lualine.style = "default"
 lvim.transparent_window = true
 vim.opt.cmdheight = 1
@@ -53,4 +53,5 @@ vim.g.material_style = "oceanic"
 lvim.plugins = {
   { "lunarvim/colorschemes" },
   { "marko-cerovac/material.nvim" },
+  { "windwp/nvim-ts-autotag" },
 }
