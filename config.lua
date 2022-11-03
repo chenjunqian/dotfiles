@@ -16,7 +16,7 @@ lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.setup.view.width = "30%"
+lvim.builtin.nvimtree.setup.view.width = "25%"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -38,13 +38,10 @@ lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enable = true
 lvim.builtin.treesitter.autotag.enable = true
 lvim.builtin.lualine.style = "default"
-lvim.transparent_window = true
 vim.opt.cmdheight = 1
 vim.opt.wrap = true
-vim.g.material_style = "oceanic"
 
 lvim.plugins = {
   { "lunarvim/colorschemes" },
-  { "marko-cerovac/material.nvim" },
   { "windwp/nvim-ts-autotag" },
 }
