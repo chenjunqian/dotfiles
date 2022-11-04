@@ -1,15 +1,16 @@
-apt-get update
-apt-get upgrade
-
-apt-get install -y curl
-apt-get install -y wget
-apt-get install -y unzip
-# install lunarvim dependencies
 apt-get install -y sudo 
-apt-get install -y nodejs
-apt-get install -y npm
-apt-get install -y pip
-apt-get install -y cargo
+sudo apt-get update
+sudo apt-get upgrade
+
+sudo apt-get install -y curl
+sudo apt-get install -y wget
+sudo apt-get install -y unzip
+sudo apt-get install tmux
+# install lunarvim dependencies
+sudo apt-get install -y nodejs
+sudo apt-get install -y npm
+sudo apt-get install -y pip
+sudo apt-get install -y cargo
 
 # install neovim
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
