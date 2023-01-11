@@ -76,6 +76,12 @@ lvim.plugins = {
           show_integration_count = false,
         },
       })
+      vim.keymap.set('n', '<leader>mc', MiniMap.close)
+      vim.keymap.set('n', '<leader>mo', MiniMap.open)
+      vim.keymap.set('n', '<leader>mf', MiniMap.toggle_focus)
+      vim.keymap.set('n', '<leader>mr', MiniMap.refresh)
+      vim.keymap.set('n', '<leader>ms', MiniMap.toggle_side)
+      vim.keymap.set('n', '<leader>mt', MiniMap.toggle)
     end
   },
 }
