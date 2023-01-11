@@ -78,38 +78,43 @@ lvim.plugins = {
       })
       vim.keymap.set('n', '<leader>mc', MiniMap.close)
       vim.keymap.set('n', '<leader>mo', MiniMap.open)
-      vim.keymap.set('n', '<leader>mf', MiniMap.toggle_focus)
-      vim.keymap.set('n', '<leader>mr', MiniMap.refresh)
-      vim.keymap.set('n', '<leader>ms', MiniMap.toggle_side)
-      vim.keymap.set('n', '<leader>mt', MiniMap.toggle)
+      -- vim.keymap.set('n', '<leader>mf', MiniMap.toggle_focus)
+      -- vim.keymap.set('n', '<leader>mr', MiniMap.refresh)
+      -- vim.keymap.set('n', '<leader>ms', MiniMap.toggle_side)
+      -- vim.keymap.set('n', '<leader>mt', MiniMap.toggle)
+      lvim.builtin.which_key.mappings['m'] = {
+        name = 'MiniMap',
+        c = {MiniMap.close,"Close MiniMap"},
+        o = {MiniMap.open,"Open MiniMap"},
+      }
     end
   },
 }
 
-lvim.autocommands = {
-  {
-    { "BufEnter", "Filetype" },
-    {
-      desc = "Open mini.map and exclude some filetypes",
-      pattern = { "*" },
-      callback = function()
-        local exclude_ft = {
-          "qf",
-          "NvimTree",
-          "toggleterm",
-          "TelescopePrompt",
-          "alpha",
-          "netrw",
-        }
+-- lvim.autocommands = {
+--   {
+--     { "BufEnter", "Filetype" },
+--     {
+--       desc = "Open mini.map and exclude some filetypes",
+--       pattern = { "*" },
+--       callback = function()
+--         local exclude_ft = {
+--           "qf",
+--           "NvimTree",
+--           "toggleterm",
+--           "TelescopePrompt",
+--           "alpha",
+--           "netrw",
+--         }
 
-        local map = require('mini.map')
-        if vim.tbl_contains(exclude_ft, vim.o.filetype) then
-          vim.b.minimap_disable = true
-          map.close()
-        elseif vim.o.buftype == "" then
-          map.open()
-        end
-      end,
-    },
-  },
-}
+--         local map = require('mini.map')
+--         if vim.tbl_contains(exclude_ft, vim.o.filetype) then
+--           vim.b.minimap_disable = true
+--           map.close()
+--         elseif vim.o.buftype == "" then
+--           map.open()
+--         end
+--       end,
+--     },
+--   },
+-- }
