@@ -130,6 +130,15 @@ lvim.plugins = {
   {
     "simrat39/symbols-outline.nvim",
     config = function()
+      lvim.builtin.which_key.mappings["lo"] = {
+        name = "Symbols Outline",
+        o = {
+          "<cmd>SymbolsOutlineOpen<CR>", "Open symbols-outline"
+        },
+        c = {
+          "<cmd>SymbolsOutlineClose<CR>", "Close symbols-outline"
+        }
+      }
       require('symbols-outline').setup()
     end
   },
