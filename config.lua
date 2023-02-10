@@ -1,7 +1,7 @@
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = false
--- lvim.colorscheme = "tokyonight"
+lvim.colorscheme = "tokyonight"
 lvim.transparent_window = true
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
@@ -142,6 +142,20 @@ lvim.plugins = {
       require('symbols-outline').setup()
     end
   },
+  {
+    "ChristianChiarulli/far.vim",
+    config = function ()
+      keymap = lvim.builtin.which_key.mappings
+      keymap["f"] = { name = "Find And Replace" }
+      keymap["f"]["b"] = {"<CMD>Farr --source=vimgrep<CR>","buffer"}
+      keymap["f"]["p"] = {"<CMD>Farr --source=rgnvim<CR>","project"}
+--    let g:far#window_width=60
+--    " Use %:p with buffer option only
+--    let g:far#file_mask_favorites=['%:p', '**/*.*', '**/*.js', '**/*.py', '**/*.java', '**/*.css', '**/*.html', '**/*.vim', '**/*.cpp', '**/*.c', '**/*.h', ]
+--    let g:far#window_min_content_width=30
+--    let g:far#enable_undo=1
+    end
+  }
 }
 
 -- lvim.autocommands = {
