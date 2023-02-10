@@ -149,6 +149,7 @@ lvim.plugins = {
       keymap["r"] = {
         { "<CMD>Farr --source=vimgrep<CR>", "Find & Replace" }
       }
+      -- https://www.chiarulli.me/Neovim/23-far-find-and-replace/
       -- keymap["f"]["b"] = { "<CMD>Farr --source=vimgrep<CR>", "buffer" }
       -- keymap["f"]["p"] = { "<CMD>Farr --source=rgnvim<CR>", "project" }
       --    let g:far#window_width=60
