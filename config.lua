@@ -2,7 +2,7 @@
 lvim.log.level = "warn"
 lvim.format_on_save = false
 lvim.colorscheme = "tokyonight"
-lvim.transparent_window = true
+-- lvim.transparent_window = true
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -19,7 +19,7 @@ lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.view.width = 40
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
-lvim.builtin.nvimtree.setup.actions.open_file.quit_on_open = true
+-- lvim.builtin.nvimtree.setup.actions.open_file.quit_on_open = true
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
@@ -42,6 +42,12 @@ lvim.builtin.treesitter.autotag.enable = true
 lvim.builtin.lualine.style = "default"
 vim.opt.cmdheight = 1
 vim.opt.wrap = true
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+-- set expandtab
+-- set tabstop=<NUM OF SPACES>
+-- set shiftwidth=<NUM OF SPACES>
 
 lvim.plugins = {
   { "lunarvim/colorschemes" },
@@ -149,7 +155,6 @@ lvim.plugins = {
       keymap["r"] = {
         { "<CMD>Farr --source=vimgrep<CR>", "Find & Replace" }
       }
-      -- https://www.chiarulli.me/Neovim/23-far-find-and-replace/
       -- keymap["f"]["b"] = { "<CMD>Farr --source=vimgrep<CR>", "buffer" }
       -- keymap["f"]["p"] = { "<CMD>Farr --source=rgnvim<CR>", "project" }
       --    let g:far#window_width=60
