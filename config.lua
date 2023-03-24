@@ -46,9 +46,6 @@ vim.opt.wrap = true
 vim.opt.expandtab = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
--- set expandtab
--- set tabstop=<NUM OF SPACES>
--- set shiftwidth=<NUM OF SPACES>
 
 lvim.plugins = {
     { "lunarvim/colorschemes" },
@@ -125,12 +122,14 @@ lvim.plugins = {
 
             vim.cmd("nnoremap gpd <cmd>lua require('goto-preview').goto_preview_definition()<CR>")
             vim.cmd("nnoremap gpi <cmd>lua require('goto-preview').goto_preview_implementation()<CR>")
+            vim.cmd("nnoremap gpt <cmd>lua require('goto-preview').goto_preview_type_definition()<CR>")
+            vim.cmd("nnoremap gpr <cmd>lua require('goto-preview').goto_preview_references()<CR>")
             vim.cmd("nnoremap gP <cmd>lua require('goto-preview').close_all_win()<CR>")
             -- lvim.builtin.which_key.mappings['gp'] = {
             --   name = 'Goto Definition Preview',
-            --   d = { "nnoremap gpd <cmd>lua require('goto-preview').goto_preview_definition()<CR>", "Goto Preview Definition" },
-            --   i = { "nnoremap gpi <cmd>lua require('goto-preview').goto_preview_implementation()<CR>",
-            --     "Goto Preiview Implementation" },
+            --   d = { "<cmd>lua require('goto-preview').goto_preview_definition()<CR>", "Goto Preview Definition" },
+            --   i = { "<cmd>lua require('goto-preview').goto_preview_implementation()<CR>", "Goto Preiview Implementation" },
+            --   r = { "<cmd>lua require('goto-preview').goto_preview_references()<CR>", "Goto Preiview References" },
             -- }
         end
     },
@@ -156,6 +155,7 @@ lvim.plugins = {
             keymap["r"] = {
                 { "<CMD>Farr --source=vimgrep<CR>", "Find & Replace" }
             }
+            -- https://www.chiarulli.me/Neovim/23-far-find-and-replace/
             -- keymap["f"]["b"] = { "<CMD>Farr --source=vimgrep<CR>", "buffer" }
             -- keymap["f"]["p"] = { "<CMD>Farr --source=rgnvim<CR>", "project" }
             --    let g:far#window_width=60
@@ -164,51 +164,33 @@ lvim.plugins = {
             --    let g:far#window_min_content_width=30
             --    let g:far#enable_undo=1
         end
-    },
-    {
-        "folke/todo-comments.nvim",
-        requires = "nvim-lua/plenary.nvim",
-        event = "BufRead",
-        config = function()
-            require("todo-comments").setup()
-        end,
     }
 }
 
--- DAP
-local dap = require("dap")
+-- lvim.autocommands = {
+--   {
+--     { "BufEnter", "Filetype" },
+--     {
+--       desc = "Open mini.map and exclude some filetypes",
+--       pattern = { "*" },
+--       callback = function()
+--         local exclude_ft = {
+--           "qf",
+--           "NvimTree",
+--           "toggleterm",
+--           "TelescopePrompt",
+--           "alpha",
+--           "netrw",
+--         }
 
--- Golang
-dap.adapters.delve = {
-  type = 'server',
-  port = '${port}',
-  executable = {
-    command = 'dlv',
-    args = {'dap', '-l', '127.0.0.1:${port}'},
-  }
-}
-
--- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
-dap.configurations.go = {
-  {
-    type = "delve",
-    name = "Debug",
-    request = "launch",
-    program = "${file}"
-  },
-  {
-    type = "delve",
-    name = "Debug test", -- configuration for debugging test files
-    request = "launch",
-    mode = "test",
-    program = "${file}"
-  },
-  -- works with go.mod packages and sub packages 
-  {
-    type = "delve",
-    name = "Debug test (go.mod)",
-    request = "launch",
-    mode = "test",
-    program = "./${relativeFileDirname}"
-  } 
-}
+--         local map = require('mini.map')
+--         if vim.tbl_contains(exclude_ft, vim.o.filetype) then
+--           vim.b.minimap_disable = true
+--           map.close()
+--         elseif vim.o.buftype == "" then
+--           map.open()
+--         end
+--       end,
+--     },
+--   },
+-- }
