@@ -1,7 +1,7 @@
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = false
-lvim.colorscheme = "tokyonight"
+lvim.colorscheme = "tokyonight-moon"
 -- lvim.transparent_window = true
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
@@ -75,7 +75,7 @@ lvim.plugins = {
                 },
                 window = {
                     side = 'right',
-                    width = 20, -- set to 1 for a pure scrollbar :)
+                    width = 10, -- set to 1 for a pure scrollbar :)
                     winblend = 15,
                     show_integration_count = false,
                 },
@@ -164,7 +164,22 @@ lvim.plugins = {
             --    let g:far#window_min_content_width=30
             --    let g:far#enable_undo=1
         end
-    }
+    },
+    {
+        "folke/todo-comments.nvim",
+        event = "BufRead",
+        config = function()
+            require("todo-comments").setup()
+        end,
+    },
+    {
+        "iamcco/markdown-preview.nvim",
+        build = "cd app && npm install",
+        ft = "markdown",
+        config = function()
+            vim.g.mkdp_auto_start = 0
+        end,
+    },
 }
 
 -- lvim.autocommands = {
