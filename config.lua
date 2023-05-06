@@ -74,6 +74,7 @@ lvim.plugins = {
                         info  = 'DiagnosticFloatingInfo',
                         hint  = 'DiagnosticFloatingHint',
                     }),
+                    map.gen_integration.gitsigns(),
                 },
                 symbols = {
                     encode = map.gen_encode_symbols.dot('4x2'),
