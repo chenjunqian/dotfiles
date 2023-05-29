@@ -1,7 +1,7 @@
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = false
-lvim.colorscheme = "tokyonight-storm"
+lvim.colorscheme = "gruvbox"
 lvim.transparent_window = true
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
@@ -55,6 +55,7 @@ vim.opt.shiftwidth = 4
 lvim.plugins = {
     { "lunarvim/colorschemes" },
     { "windwp/nvim-ts-autotag" },
+    { "ellisonleao/gruvbox.nvim" },
     {
         "folke/lsp-colors.nvim",
         event = "BufRead",
