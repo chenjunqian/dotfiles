@@ -23,27 +23,8 @@ lvim.builtin.dap.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.view.width = 40
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
--- lvim.builtin.nvimtree.setup.actions.open_file.quit_on_open = true
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.auto_install = true
--- lvim.builtin.treesitter.ensure_installed = {
---     "bash",
---     "c",
---     "javascript",
---     "json",
---     "lua",
---     "python",
---     "typescript",
---     "tsx",
---     "css",
---     "rust",
---     "java",
---     "yaml",
--- }
-
--- lvim.builtin.treesitter.ignore_install = { "haskell" }
--- lvim.builtin.treesitter.highlight.enable = true
--- lvim.builtin.treesitter.autotag.enable = true
 lvim.builtin.lualine.style = "default"
 vim.opt.cmdheight = 1
 vim.opt.wrap = true
@@ -55,10 +36,6 @@ lvim.plugins = {
     { "lunarvim/colorschemes" },
     { "windwp/nvim-ts-autotag" },
     { "ellisonleao/gruvbox.nvim" },
-    {
-        "folke/lsp-colors.nvim",
-        event = "BufRead",
-    },
     {
         "echasnovski/mini.map",
         branch = "stable",
