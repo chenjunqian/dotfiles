@@ -200,6 +200,9 @@ lvim.plugins = {
         end,
         event = "BufRead"
     },
+    {
+        "olexsmir/gopher.nvim",
+    },
 }
 
 -- lvim.autocommands = {
