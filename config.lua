@@ -1,7 +1,7 @@
 lvim.log.level = "warn"
 lvim.format_on_save = false
-lvim.colorscheme = "gruvbox"
-lvim.transparent_window = true
+lvim.colorscheme = "nordic"
+-- lvim.transparent_window = true
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -27,15 +27,26 @@ lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 lvim.builtin.treesitter.auto_install = true
 lvim.builtin.lualine.style = "default"
 vim.opt.cmdheight = 1
-vim.opt.wrap = true
-vim.opt.expandtab = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
+vim.opt.wrap = true
 
 lvim.plugins = {
     { "lunarvim/colorschemes" },
     { "windwp/nvim-ts-autotag" },
-    { "ellisonleao/gruvbox.nvim" },
+    -- { "ellisonleao/gruvbox.nvim" },
+    {
+        'AlexvZyl/nordic.nvim',
+        lazy = false,
+        priority = 1000,
+        config = function()
+            require 'nordic'.load()
+        end
+    },
+    {
+        "folke/lsp-colors.nvim",
+        event = "BufRead",
+    },
     {
         "echasnovski/mini.map",
         branch = "stable",
@@ -65,8 +76,7 @@ lvim.plugins = {
             })
             lvim.builtin.which_key.mappings['m'] = {
                 name = 'MiniMap',
-                c = { MiniMap.close, "Close MiniMap" },
-                o = { MiniMap.open, "Open MiniMap" },
+                o = { MiniMap.toggle, "Toggle MiniMap" },
             }
         end
     },
@@ -179,8 +189,36 @@ lvim.plugins = {
     },
     {
         "olexsmir/gopher.nvim",
-    },
+    }
 }
+
+-- lvim.autocommands = {
+--   {
+--     { "BufEnter", "Filetype" },
+--     {
+--       desc = "Open mini.map and exclude some filetypes",
+--       pattern = { "*" },
+--       callback = function()
+--         local exclude_ft = {
+--           "qf",
+--           "NvimTree",
+--           "toggleterm",
+--           "TelescopePrompt",
+--           "alpha",
+--           "netrw",
+--         }
+
+--         local map = require('mini.map')
+--         if vim.tbl_contains(exclude_ft, vim.o.filetype) then
+--           vim.b.minimap_disable = true
+--           map.close()
+--         elseif vim.o.buftype == "" then
+--           map.open()
+--         end
+--       end,
+--     },
+--   },
+-- }
 
 
 -- DAP Setting
