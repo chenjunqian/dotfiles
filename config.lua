@@ -80,25 +80,25 @@ lvim.plugins = {
             }
         end
     },
-    {
-        "karb94/neoscroll.nvim",
-        event = "WinScrolled",
-        config = function()
-            require('neoscroll').setup({
-                -- All these keys will be mapped to their corresponding default scrolling animation
-                mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>',
-                    '<C-y>', '<C-e>', 'zt', 'zz', 'zb' },
-                hide_cursor = true,          -- Hide cursor while scrolling
-                stop_eof = true,             -- Stop at <EOF> when scrolling downwards
-                use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
-                respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
-                cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
-                easing_function = nil,       -- Default easing function
-                pre_hook = nil,              -- Function to run before the scrolling animation starts
-                post_hook = nil,             -- Function to run after the scrolling animation ends
-            })
-        end
-    },
+    -- {
+    --     "karb94/neoscroll.nvim",
+    --     event = "WinScrolled",
+    --     config = function()
+    --         require('neoscroll').setup({
+    --             -- All these keys will be mapped to their corresponding default scrolling animation
+    --             mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>',
+    --                 '<C-y>', '<C-e>', 'zt', 'zz', 'zb' },
+    --             hide_cursor = true,          -- Hide cursor while scrolling
+    --             stop_eof = true,             -- Stop at <EOF> when scrolling downwards
+    --             use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
+    --             respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+    --             cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+    --             easing_function = nil,       -- Default easing function
+    --             pre_hook = nil,              -- Function to run before the scrolling animation starts
+    --             post_hook = nil,             -- Function to run after the scrolling animation ends
+    --         })
+    --     end
+    -- },
     {
         "rmagatti/goto-preview",
         config = function()
@@ -189,97 +189,37 @@ lvim.plugins = {
     },
     {
         "olexsmir/gopher.nvim",
+    },
+    {
+        "leoluz/nvim-dap-go",
+        config = function()
+            lvim.builtin.which_key.mappings["dm"] = {
+                "<cmd>lua require('dap-go').debug_test()<CR>", "Debug Method"
+            }
+        end
     }
 }
-
--- lvim.autocommands = {
---   {
---     { "BufEnter", "Filetype" },
---     {
---       desc = "Open mini.map and exclude some filetypes",
---       pattern = { "*" },
---       callback = function()
---         local exclude_ft = {
---           "qf",
---           "NvimTree",
---           "toggleterm",
---           "TelescopePrompt",
---           "alpha",
---           "netrw",
---         }
-
---         local map = require('mini.map')
---         if vim.tbl_contains(exclude_ft, vim.o.filetype) then
---           vim.b.minimap_disable = true
---           map.close()
---         elseif vim.o.buftype == "" then
---           map.open()
---         end
---       end,
---     },
---   },
--- }
 
 
 -- DAP Setting
-local dap = require('dap')
 require('dap.ext.vscode').load_launchjs()
-
-dap.adapters.go = function(callback, config)
-    local stdout = vim.loop.new_pipe(false)
-    local handle
-    local pid_or_err
-    local host = config.host or "127.0.0.1"
-    local port = config.port or "38697"
-    local addr = string.format("%s:%s", host, port)
-    local opts = {
-        stdio = { nil, stdout },
-        args = { "dap", "-l", addr },
-        detached = true,
-    }
-    handle, pid_or_err = vim.loop.spawn("dlv", opts, function(code)
-        stdout:close()
-        handle:close()
-        if code ~= 0 then
-            print("dlv exited with code", code)
-        end
-    end)
-    assert(handle, "Error running dlv: " .. tostring(pid_or_err))
-    stdout:read_start(function(err, chunk)
-        assert(not err, err)
-        if chunk then
-            vim.schedule(function()
-                require("dap.repl").append(chunk)
-            end)
-        end
-    end)
-    -- Wait for delve to start
-    vim.defer_fn(function()
-        callback({ type = "server", host = "127.0.0.1", port = port })
-    end, 100)
-end
-
--- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
-dap.configurations.go = {
-    {
-        type = "go",
-        name = "Debug",
-        request = "launch",
-        program = "${file}"
+require('dap-go').setup {
+    dap_configurations = {
+        {
+            -- Must be "go" or it will be ignored by the plugin
+            type = "go",
+            name = "Attach remote",
+            mode = "remote",
+            request = "attach",
+        },
     },
-    {
-        type = "go",
-        name = "Debug test", -- configuration for debugging test files
-        request = "launch",
-        mode = "test",
-        program = "${file}"
+    -- delve configurations
+    delve = {
+        path = "dlv",
+        initialize_timeout_sec = 20,
+        port = "${port}",
+        args = {},
+        build_flags = "",
     },
-    -- works with go.mod packages and sub packages
-    {
-        type = "go",
-        name = "Debug test (go.mod)",
-        request = "launch",
-        mode = "test",
-        program = "./${relativeFileDirname}"
-    }
 }
+-- Golang DAP End
