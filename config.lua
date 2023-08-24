@@ -194,12 +194,15 @@ lvim.plugins = {
         "leoluz/nvim-dap-go",
         config = function()
             lvim.builtin.which_key.mappings["dm"] = {
-                "<cmd>lua require('dap-go').debug_test()<CR>", "Debug Method"
+                name = 'Debug Method',
+                g = { "<cmd>lua require('dap-go').debug_test()<CR>", "Debug Method for Golang" }
             }
         end
     }
 }
 
+-- LSP Setting
+require("lvim.lsp.manager").setup("grammarly")
 
 -- DAP Setting
 require('dap.ext.vscode').load_launchjs()
