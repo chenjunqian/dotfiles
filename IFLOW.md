@@ -4,7 +4,7 @@
 
 This is a personal dotfiles configuration repository primarily used for storing and managing development environment configuration files. This repository focuses on providing unified development environment settings, including:
 
-- **LunarVim Configuration**: IDE configuration based on Neovim
+- **LazyVim Configuration**: IDE configuration based on Neovim
 - **Tmux Configuration**: Terminal multiplexer settings
 - **Automated Installation Script**: Environment configuration for Ubuntu systems
 
@@ -12,39 +12,44 @@ This is a personal dotfiles configuration repository primarily used for storing 
 
 ### Core Configuration Files
 
-- `config.lua` - Main configuration file for LunarVim, containing plugins, key bindings, and appearance settings
+- `.config/nvim/` - LazyVim configuration directory containing all Neovim settings
 - `.tmux.conf` - Configuration file for Tmux terminal multiplexer
-- `lvim-setup-ubuntu.sh` - Automated script for installing and configuring development environment on Ubuntu systems
+- `quick_setup.sh` - Automated script for installing and configuring development environment on Ubuntu systems
 
 ### Configuration Details
 
-#### LunarVim Configuration Features
+#### LazyVim Configuration Features
 
-- **Theme**: Uses Nordic theme, providing a dark interface
-- **Plugin Management**: Includes multiple useful plugins
-  - `nvim-ts-autotag`: Automatic tag completion
-  - `mini.map`: Code minimap
-  - `goto-preview`: Definition preview
-  - `symbols-outline.nvim`: Symbol outline
-  - `far.vim`: Find and replace tool
-  - `todo-comments.nvim`: TODO comment highlighting
-  - `markdown-preview.nvim`: Markdown preview
-  - `lsp_signature.nvim`: LSP signature help
-  - `gopher.nvim`: Go development support
-  - `nvim-dap-go`: Go debugging support
+- **Theme**: Uses TokyoNight theme (default in LazyVim)
+- **Plugin Management**: Uses lazy.nvim plugin manager with the following key plugins:
+  - `blink.cmp`: Completion engine
+  - `bufferline.nvim`: Buffer tabs
+  - `catppuccin`: Color scheme
+  - `conform.nvim`: Code formatting
+  - `flash.nvim`: navigation
+  - `fzf-lua`: Fuzzy finder
+  - `gitsigns.nvim`: Git integration
+  - `grug-far.nvim`: Find and replace
+  - `neo-tree.nvim`: File explorer
+  - `noice.nvim`: UI improvements
+  - `nvim-treesitter`: Syntax highlighting
+  - `todo-comments.nvim`: TODO highlighting
+  - `trouble.nvim`: Diagnostics viewer
+  - `which-key.nvim`: Keybinding helper
 
-- **Key Bindings**:
-  - `<C-s>`: Save file
-  - `L`: Jump to end of line
-  - `H`: Jump to beginning of line
-  - `<Tab>`/`<S-Tab>`: Buffer switching
+- **Configuration Structure**:
+  - `lua/config/options.lua`: Neovim options (relative line numbers disabled)
+  - `lua/config/keymaps.lua`: Custom key mappings
+  - `lua/config/autocmds.lua`: Auto commands
+  - `lua/config/lazy.lua`: Plugin manager configuration
+  - `lua/plugins/`: Plugin specifications
 
 #### Tmux Configuration Features
 
 - **Plugins**:
   - `tmux-sensible`: Sensible default settings
   - `tmux-resurrect`: Session restoration
-  - `tmux-gruvbox`: Gruvbox theme
+  - `tmux-gruvbox`: Gruvbox theme (dark)
 
 - **Key Bindings**:
   - `|`: Horizontal window split
@@ -58,13 +63,15 @@ This is a personal dotfiles configuration repository primarily used for storing 
 Run the following script for complete development environment installation:
 
 ```bash
-bash lvim-setup-ubuntu.sh
+bash quick_setup.sh
 ```
 
 This script will:
-1. Install necessary system dependencies (curl, wget, unzip, tmux, nodejs, npm, pip, cargo)
+1. Install system dependencies (curl, wget, unzip, tmux)
 2. Install Neovim
-3. Install LunarVim
+3. Backup existing Neovim configurations
+4. Copy LazyVim configuration to ~/.config/nvim
+5. Copy tmux configuration to ~/.tmux.conf
 
 ### Manual Configuration Steps
 
@@ -79,13 +86,19 @@ This script will:
    # Install plugins (press Prefix + I in tmux)
    ```
 
-2. **LunarVim Configuration**:
+2. **LazyVim Configuration**:
    ```bash
-   # Copy configuration file
-   cp config.lua ~/.config/lvim/config.lua
+   # Backup existing configuration (optional but recommended)
+   mv ~/.config/nvim{,.bak}
+   mv ~/.local/share/nvim{,.bak}
+   mv ~/.local/state/nvim{,.bak}
+   mv ~/.cache/nvim{,.bak}
    
-   # Recompile plugins (execute in LunarVim)
-   :PackerCompile
+   # Copy configuration
+   cp -r .config/nvim ~/.config/nvim
+   
+   # Start Neovim and plugins will be automatically installed
+   nvim
    ```
 
 ## Development Conventions
@@ -94,21 +107,30 @@ This script will:
 - **Plugin Selection**: Prioritize lightweight and actively maintained plugins
 - **Key Bindings**: Follow common editor key binding habits
 - **Theme Consistency**: Maintain visual consistency across different tools
+- **Line Numbers**: Absolute line numbers enabled, relative line numbers disabled
 
 ## Project Structure
 
 ```
 dotfiles/
-├── .gitignore           # Git ignore file
-├── .tmux.conf          # Tmux configuration
-├── config.lua          # LunarVim configuration
-├── IFLOW.md            # Project documentation
-└── lvim-setup-ubuntu.sh # Ubuntu installation script
+├── .config/
+│   └── nvim/             # LazyVim configuration
+│       ├── lua/
+│       │   ├── config/   # Neovim configuration files
+│       │   └── plugins/  # Plugin specifications
+│       ├── init.lua      # Entry point
+│       ├── lazy-lock.json # Plugin lock file
+│       └── stylua.toml   # Lua formatter config
+├── .gitignore            # Git ignore file
+├── .tmux.conf           # Tmux configuration
+├── IFLOW.md             # Project documentation
+└── quick_setup.sh       # Ubuntu installation script
 ```
 
 ## Maintenance Notes
 
-- Regularly update plugin versions
+- Regularly update plugin versions using LazyVim's update mechanism
 - Test new version compatibility
 - Backup important configuration changes
 - Keep documentation synchronized with updates
+- Use lazy.nvim's health check to verify configuration

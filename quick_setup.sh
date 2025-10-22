@@ -24,3 +24,7 @@ mv ~/.local/state/nvim{,.bak}
 mv ~/.cache/nvim{,.bak}
 
 cp .config/nvim ~/.config/nvim
+
+
+# Setup tmux
+cp .tmux.conf ~/.tmux.conf
