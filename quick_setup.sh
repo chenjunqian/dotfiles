@@ -12,6 +12,11 @@ curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x8
 sudo rm -rf /opt/nvim-linux-x86_64
 sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
 
+# Add neovim to PATH
+if ! grep -q "/opt/nvim-linux-x86_64/bin" ~/.bashrc; then
+    echo 'export PATH="/opt/nvim-linux-x86_64/bin:$PATH"' >> ~/.bashrc
+fi
+
 
 # Install Lazyvim
 
