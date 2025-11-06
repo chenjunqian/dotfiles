@@ -33,3 +33,13 @@ cp -r .config/nvim ~/.config/nvim
 
 # Setup tmux
 cp .tmux.conf ~/.tmux.conf
+
+# Install TPM (Tmux Plugin Manager)
+if [ ! -d "~/.tmux/plugins/tpm" ]; then
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
+# Reload tmux configuration
+tmux source-file ~/.tmux.conf 2>/dev/null || echo "Tmux configuration reloaded (run 'tmux source-file ~/.tmux.conf' after starting tmux)"
+
+echo "To install tmux plugins, press prefix+I after starting tmux (prefix is usually Ctrl+B)"
