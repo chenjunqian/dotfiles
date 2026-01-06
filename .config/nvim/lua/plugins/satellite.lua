@@ -17,7 +17,7 @@ return {
         signs = { '-', '=', '≡' },
         min_severity = vim.diagnostic.severity.HINT
       },
-      gitsigns = { enable = true },
+      gitsigns = { enable = false },  -- Disable to avoid E565 conflict with gitsigns
       marks = { enable = true, show_builtins = false },
       quickfix = { signs = { '-', '=', '≡' } }
     }
