@@ -89,7 +89,7 @@ symlink_config() {
 install_macos_packages() {
   need_cmd brew || fail "Homebrew is required on macOS. Install it from https://brew.sh/"
   log "Installing packages via Homebrew..."
-  brew install neovim tmux git curl ripgrep fd
+  brew install neovim tmux git curl ripgrep fd lazygit
 }
 
 install_linux_packages() {
@@ -119,6 +119,41 @@ install_linux_packages() {
     return
   fi
   fail "Unsupported Linux package manager"
+}
+
+install_lazygit_linux() {
+  if need_cmd lazygit; then
+    log "lazygit already installed: $(lazygit --version 2>/dev/null | head -n1)"
+    return
+  fi
+
+  local arch download_url
+  arch="$(uname -m)"
+  case "$arch" in
+    x86_64)         arch="x86_64" ;;
+    arm64|aarch64)  arch="arm64" ;;
+    *)              fail "Unsupported Linux architecture: $arch" ;;
+  esac
+
+  log "Fetching latest lazygit release info..."
+  download_url="$(
+    curl -fsSL https://api.github.com/repos/jesseduffield/lazygit/releases/latest \
+    | grep -oP '"browser_download_url": "\K[^"]*Linux_'${arch}'[^"]*\.tar\.gz'
+  )"
+  [ -n "$download_url" ] || fail "Could not find lazygit download URL"
+
+  local temp_dir
+  temp_dir="$(mktemp -d)"
+
+  log "Downloading lazygit binary..."
+  download_file "$download_url" "${temp_dir}/lazygit.tar.gz"
+
+  ensure_local_bin
+  tar -xzf "${temp_dir}/lazygit.tar.gz" -C "$temp_dir"
+  mv "${temp_dir}"/lazygit "${HOME}/.local/bin/lazygit"
+  chmod +x "${HOME}/.local/bin/lazygit"
+  rm -rf "$temp_dir"
+  log "lazygit installed to ~/.local/bin/lazygit"
 }
 
 install_neovim_linux() {
@@ -160,6 +195,7 @@ install_deps() {
       ;;
     Linux)
       install_linux_packages
+      install_lazygit_linux
       install_neovim_linux
       ;;
     *)
