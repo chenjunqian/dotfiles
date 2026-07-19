@@ -1,0 +1,5 @@
+font-family = JetBrainsMono Nerd Font Mono
+background-opacity = 0.92
+font-size = 8
+command = /usr/bin/zsh
+keybind = ctrl+v=paste_from_clipboard

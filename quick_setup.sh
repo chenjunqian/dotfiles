@@ -6,6 +6,10 @@ SOURCE_NVIM_DIR="${SCRIPT_DIR}/.config/nvim"
 TARGET_NVIM_DIR="${HOME}/.config/nvim"
 SOURCE_TMUX_CONF="${SCRIPT_DIR}/.tmux.conf"
 TARGET_TMUX_CONF="${HOME}/.tmux.conf"
+SOURCE_GHOSTTY_CONF="${SCRIPT_DIR}/.config/ghostty/config.ghostty"
+TARGET_GHOSTTY_CONF="${HOME}/.config/ghostty/config.ghostty"
+SOURCE_ZSH_CONF="${SCRIPT_DIR}/.zshrc"
+TARGET_ZSH_CONF="${HOME}/.zshrc"
 TIMESTAMP="$(date +%Y%m%d%H%M%S)"
 
 # ── helpers ──
@@ -174,6 +178,39 @@ link_fd_if_needed() {
   fi
 }
 
+# ── zsh ──
+
+install_zsh_plugins() {
+  if ! need_cmd zsh; then
+    warn "zsh not found, skipping zsh setup"
+    return
+  fi
+
+  if [ ! -d "${HOME}/.oh-my-zsh" ]; then
+    log "Installing Oh My Zsh..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    log "Oh My Zsh installed"
+  else
+    log "Oh My Zsh already installed"
+  fi
+
+  local custom_dir="${HOME}/.oh-my-zsh/custom/plugins"
+
+  if [ ! -d "${custom_dir}/zsh-autosuggestions" ]; then
+    log "Installing zsh-autosuggestions..."
+    git clone https://github.com/zsh-users/zsh-autosuggestions "${custom_dir}/zsh-autosuggestions"
+  else
+    log "zsh-autosuggestions already installed"
+  fi
+
+  if [ ! -d "${custom_dir}/zsh-syntax-highlighting" ]; then
+    log "Installing zsh-syntax-highlighting..."
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting "${custom_dir}/zsh-syntax-highlighting"
+  else
+    log "zsh-syntax-highlighting already installed"
+  fi
+}
+
 # ── tmux ──
 
 install_tmux_plugins() {
@@ -220,11 +257,20 @@ main() {
 
   install_tmux_plugins
 
+  [ -f "$SOURCE_GHOSTTY_CONF" ] || fail "Source ghostty config not found: ${SOURCE_GHOSTTY_CONF}"
+  symlink_config "$SOURCE_GHOSTTY_CONF" "$TARGET_GHOSTTY_CONF"
+
+  [ -f "$SOURCE_ZSH_CONF" ] || fail "Source zsh config not found: ${SOURCE_ZSH_CONF}"
+  symlink_config "$SOURCE_ZSH_CONF" "$TARGET_ZSH_CONF"
+
+  install_zsh_plugins
+
   echo ""
   log "=== setup complete ==="
   echo "  Neovim: nvim"
   echo "  Tmux:   tmux"
-  echo ""
+  echo "  Ghostty: ${TARGET_GHOSTTY_CONF}"
+  echo "  Zsh:    ${TARGET_ZSH_CONF}"
 }
 
 main "$@"

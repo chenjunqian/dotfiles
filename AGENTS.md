@@ -6,6 +6,8 @@ This is a personal dotfiles configuration repository primarily used for storing 
 
 - **LazyVim Configuration**: IDE configuration based on Neovim
 - **Tmux Configuration**: Terminal multiplexer settings
+- **Zsh Configuration**: Shell environment (Oh My Zsh, proxy helpers, NVM)
+- **Ghostty Configuration**: Terminal emulator settings
 - **Automated Installation Script**: Environment configuration for Ubuntu systems
 
 ## Main Files Description
@@ -14,6 +16,8 @@ This is a personal dotfiles configuration repository primarily used for storing 
 
 - `.config/nvim/` - LazyVim configuration directory containing all Neovim settings
 - `.tmux.conf` - Configuration file for Tmux terminal multiplexer
+- `.zshrc` - Zsh shell configuration (Oh My Zsh, proxy helpers, NVM)
+- `.config/ghostty/config.ghostty` - Ghostty terminal configuration
 - `quick_setup.sh` - Automated script for installing and configuring development environment on Ubuntu systems
 
 ### Configuration Details
@@ -72,6 +76,8 @@ This script will:
 3. Backup existing Neovim configurations
 4. Copy LazyVim configuration to ~/.config/nvim
 5. Copy tmux configuration to ~/.tmux.conf
+6. Copy ghostty configuration to ~/.config/ghostty
+7. Copy zsh configuration to ~/.zshrc
 
 ### Manual Configuration Steps
 
@@ -114,6 +120,8 @@ This script will:
 ```
 dotfiles/
 ├── .config/
+│   ├── ghostty/
+│   │   └── config.ghostty  # Ghostty terminal config
 │   └── nvim/             # LazyVim configuration
 │       ├── lua/
 │       │   ├── config/   # Neovim configuration files
@@ -123,6 +131,7 @@ dotfiles/
 │       └── stylua.toml   # Lua formatter config
 ├── .gitignore            # Git ignore file
 ├── .tmux.conf           # Tmux configuration
+├── .zshrc               # Zsh configuration
 ├── IFLOW.md             # Project documentation
 └── quick_setup.sh       # Ubuntu installation script
 ```
