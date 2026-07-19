@@ -135,25 +135,25 @@ install_lazygit_linux() {
     *)              fail "Unsupported Linux architecture: $arch" ;;
   esac
 
-  log "Fetching latest lazygit release info..."
-  download_url="$(
-    curl -fsSL https://api.github.com/repos/jesseduffield/lazygit/releases/latest \
-    | grep -oP '"browser_download_url": "\K[^"]*Linux_'${arch}'[^"]*\.tar\.gz'
-  )"
-  [ -n "$download_url" ] || fail "Could not find lazygit download URL"
+  log "Fetching latest lazygit release version..."
+  local version
+  version="$(curl -fsSI https://github.com/jesseduffield/lazygit/releases/latest | grep -i "^location:" | grep -oP 'tag/v?\K[0-9]+\.[0-9]+\.[0-9]+')"
+  [ -n "$version" ] || fail "Could not determine latest lazygit version"
 
   local temp_dir
   temp_dir="$(mktemp -d)"
 
-  log "Downloading lazygit binary..."
-  download_file "$download_url" "${temp_dir}/lazygit.tar.gz"
+  log "Downloading lazygit v${version}..."
+  download_file \
+    "https://github.com/jesseduffield/lazygit/releases/download/v${version}/lazygit_${version}_Linux_${arch}.tar.gz" \
+    "${temp_dir}/lazygit.tar.gz"
 
   ensure_local_bin
   tar -xzf "${temp_dir}/lazygit.tar.gz" -C "$temp_dir"
   mv "${temp_dir}"/lazygit "${HOME}/.local/bin/lazygit"
   chmod +x "${HOME}/.local/bin/lazygit"
   rm -rf "$temp_dir"
-  log "lazygit installed to ~/.local/bin/lazygit"
+  log "lazygit v${version} installed to ~/.local/bin/lazygit"
 }
 
 install_neovim_linux() {
