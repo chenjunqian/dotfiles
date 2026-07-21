@@ -11,3 +11,6 @@ end, { desc = "Terminal (Root Dir)" })
 vim.keymap.set("t", "<C-\\>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 vim.keymap.set("n", "L", "$", { desc = "Go to end of line" })
 vim.keymap.set("n", "H", "^", { desc = "Go to beginning of line" })
+
+-- Emmet expand abbreviation in insert mode
+vim.keymap.set("i", "<C-e>", "<Plug>(emmet-expand-abbr)", { desc = "Expand Emmet abbreviation" })
