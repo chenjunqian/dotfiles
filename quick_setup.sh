@@ -10,6 +10,8 @@ SOURCE_GHOSTTY_CONF="${SCRIPT_DIR}/.config/ghostty/config.ghostty"
 TARGET_GHOSTTY_CONF="${HOME}/.config/ghostty/config.ghostty"
 SOURCE_ZSH_CONF="${SCRIPT_DIR}/.zshrc"
 TARGET_ZSH_CONF="${HOME}/.zshrc"
+SOURCE_OPencode_CONF="${SCRIPT_DIR}/.config/opencode/opencode.jsonc"
+TARGET_OPencode_CONF="${HOME}/.config/opencode/opencode.jsonc"
 TIMESTAMP="$(date +%Y%m%d%H%M%S)"
 
 # ── helpers ──
@@ -296,6 +298,9 @@ main() {
   [ -f "$SOURCE_GHOSTTY_CONF" ] || fail "Source ghostty config not found: ${SOURCE_GHOSTTY_CONF}"
   symlink_config "$SOURCE_GHOSTTY_CONF" "$TARGET_GHOSTTY_CONF"
 
+  [ -f "$SOURCE_OPencode_CONF" ] || fail "Source opencode config not found: ${SOURCE_OPencode_CONF}"
+  symlink_config "$SOURCE_OPencode_CONF" "$TARGET_OPencode_CONF"
+
   [ -f "$SOURCE_ZSH_CONF" ] || fail "Source zsh config not found: ${SOURCE_ZSH_CONF}"
   symlink_config "$SOURCE_ZSH_CONF" "$TARGET_ZSH_CONF"
 
@@ -305,8 +310,9 @@ main() {
   log "=== setup complete ==="
   echo "  Neovim: nvim"
   echo "  Tmux:   tmux"
-  echo "  Ghostty: ${TARGET_GHOSTTY_CONF}"
-  echo "  Zsh:    ${TARGET_ZSH_CONF}"
+  echo "  Ghostty:  ${TARGET_GHOSTTY_CONF}"
+  echo "  opencode: ${TARGET_OPencode_CONF}"
+  echo "  Zsh:      ${TARGET_ZSH_CONF}"
 }
 
 main "$@"
