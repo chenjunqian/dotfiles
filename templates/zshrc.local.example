@@ -1,0 +1,14 @@
+# Machine-local overrides for .zshrc.
+# Copy this file to ~/.zshrc.local on each machine and adjust the values.
+# This file is NOT part of the dotfiles repo and is never committed.
+
+# ── proxy ports (Linux/other; macOS auto-uses System Settings) ──
+PROXY_HOST=127.0.0.1
+PROXY_HTTP_PORT=7897   # Clash Verge mixed port
+PROXY_SOCKS_PORT=7897  # Clash Verge socks port
+
+# ── per-machine paths ──
+# export MY_VPN_DIR="$HOME/..."
+
+# ── per-machine exports ──
+# export WORK_EMAIL="you@example.com"

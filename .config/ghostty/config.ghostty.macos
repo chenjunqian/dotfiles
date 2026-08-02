@@ -1,0 +1,5 @@
+# macOS-specific overrides
+# NOTE: zsh lives at /bin/zsh on macOS, not /usr/bin/zsh, so `command` is
+# left unset here and Ghostty falls back to the $SHELL lookup.
+font-size = 10
+background-blur = true

@@ -12,7 +12,24 @@ SOURCE_ZSH_CONF="${SCRIPT_DIR}/.zshrc"
 TARGET_ZSH_CONF="${HOME}/.zshrc"
 SOURCE_OPencode_CONF="${SCRIPT_DIR}/.config/opencode/opencode.jsonc"
 TARGET_OPencode_CONF="${HOME}/.config/opencode/opencode.jsonc"
+SOURCE_ZSH_LOCAL_TEMPLATE="${SCRIPT_DIR}/templates/zshrc.local.example"
+TARGET_ZSH_LOCAL="${HOME}/.zshrc.local"
 TIMESTAMP="$(date +%Y%m%d%H%M%S)"
+
+case "$(uname -s)" in
+  Darwin)
+    PLATFORM="macos"
+    ;;
+  Linux)
+    PLATFORM="linux"
+    ;;
+  *)
+    PLATFORM=""
+    ;;
+esac
+
+SOURCE_GHOSTTY_PLATFORM_CONF="${SCRIPT_DIR}/.config/ghostty/config.ghostty.${PLATFORM}"
+TARGET_GHOSTTY_PLATFORM_CONF="${HOME}/.config/ghostty/config.ghostty.${PLATFORM}"
 
 # ── helpers ──
 
@@ -298,11 +315,30 @@ main() {
   [ -f "$SOURCE_GHOSTTY_CONF" ] || fail "Source ghostty config not found: ${SOURCE_GHOSTTY_CONF}"
   symlink_config "$SOURCE_GHOSTTY_CONF" "$TARGET_GHOSTTY_CONF"
 
+  if [ -n "$PLATFORM" ]; then
+    [ -f "$SOURCE_GHOSTTY_PLATFORM_CONF" ] || fail "Source ghostty platform config not found: ${SOURCE_GHOSTTY_PLATFORM_CONF}"
+    symlink_config "$SOURCE_GHOSTTY_PLATFORM_CONF" "$TARGET_GHOSTTY_PLATFORM_CONF"
+  else
+    warn "Unsupported platform, skipping ghostty platform config"
+  fi
+
   [ -f "$SOURCE_OPencode_CONF" ] || fail "Source opencode config not found: ${SOURCE_OPencode_CONF}"
   symlink_config "$SOURCE_OPencode_CONF" "$TARGET_OPencode_CONF"
 
   [ -f "$SOURCE_ZSH_CONF" ] || fail "Source zsh config not found: ${SOURCE_ZSH_CONF}"
   symlink_config "$SOURCE_ZSH_CONF" "$TARGET_ZSH_CONF"
+
+  if [ ! -f "$TARGET_ZSH_LOCAL" ]; then
+    if [ -f "$SOURCE_ZSH_LOCAL_TEMPLATE" ]; then
+      cp "$SOURCE_ZSH_LOCAL_TEMPLATE" "$TARGET_ZSH_LOCAL"
+      log "Created ${TARGET_ZSH_LOCAL} from template"
+      warn "Edit ${TARGET_ZSH_LOCAL} to set your machine's proxy ports"
+    else
+      warn "zshrc.local template not found: ${SOURCE_ZSH_LOCAL_TEMPLATE}"
+    fi
+  else
+    log "${TARGET_ZSH_LOCAL} already exists"
+  fi
 
   install_zsh_plugins
 
@@ -310,9 +346,10 @@ main() {
   log "=== setup complete ==="
   echo "  Neovim: nvim"
   echo "  Tmux:   tmux"
-  echo "  Ghostty:  ${TARGET_GHOSTTY_CONF}"
+  echo "  Ghostty:  ${TARGET_GHOSTTY_CONF} (+ config.ghostty.${PLATFORM})"
   echo "  opencode: ${TARGET_OPencode_CONF}"
   echo "  Zsh:      ${TARGET_ZSH_CONF}"
+  echo "  Local:    ${TARGET_ZSH_LOCAL}"
 }
 
 main "$@"

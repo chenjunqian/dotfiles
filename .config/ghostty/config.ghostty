@@ -1,5 +1,10 @@
 font-family = JetBrainsMono Nerd Font Mono
 background-opacity = 0.92
-font-size = 8
-command = /usr/bin/zsh
 keybind = ctrl+v=paste_from_clipboard
+
+# Platform-specific overrides (loaded by quick_setup.sh per OS)
+# config.ghostty.linux | config.ghostty.macos
+# Create config.ghostty.local in ~/.config/ghostty/ for machine-local overrides.
+config-file = ?config.ghostty.macos
+config-file = ?config.ghostty.linux
+config-file = ?config.ghostty.local

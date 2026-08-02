@@ -1,0 +1,3 @@
+# Linux-specific overrides
+command = /usr/bin/zsh
+font-size = 8
