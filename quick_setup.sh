@@ -1,7 +1,10 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/sh
+set -eu
+if (set -o pipefail) 2>/dev/null; then
+  set -o pipefail
+fi
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SOURCE_NVIM_DIR="${SCRIPT_DIR}/.config/nvim"
 TARGET_NVIM_DIR="${HOME}/.config/nvim"
 SOURCE_TMUX_CONF="${SCRIPT_DIR}/.tmux.conf"
@@ -67,8 +70,7 @@ ensure_path_contains_local_bin() {
   esac
 
   local export_line='export PATH="$HOME/.local/bin:$PATH"'
-  local shell_files=("${HOME}/.profile" "${HOME}/.bashrc" "${HOME}/.zprofile")
-  for f in "${shell_files[@]}"; do
+  for f in "${HOME}/.profile" "${HOME}/.bashrc" "${HOME}/.zprofile"; do
     if [ -f "$f" ] && ! grep -Fq "$export_line" "$f"; then
       printf '\n%s\n' "$export_line" >> "$f"
       log "Added ~/.local/bin to PATH in $f"
@@ -156,7 +158,7 @@ install_lazygit_linux() {
 
   log "Fetching latest lazygit release version..."
   local version
-  version="$(curl -fsSI https://github.com/jesseduffield/lazygit/releases/latest | grep -i "^location:" | grep -oP 'tag/v?\K[0-9]+\.[0-9]+\.[0-9]+')"
+  version="$(curl -fsSI https://github.com/jesseduffield/lazygit/releases/latest | grep -i "^location:" | sed -nE 's#.*tag/v?([0-9]+\.[0-9]+\.[0-9]+).*#\1#p' | head -n 1)"
   [ -n "$version" ] || fail "Could not determine latest lazygit version"
 
   local temp_dir
