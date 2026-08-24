@@ -6,5 +6,59 @@
       "git push*": "ask",
       "*": "allow"
     }
+  },
+  "provider": {
+    "deepseek": {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "env": ["DEEPSEEK_API_KEY"],
+      "npm": "@ai-sdk/openai-compatible",
+      "api": "https://api.deepseek.com",
+      "models": {
+        "deepseek-v4-flash": {
+          "id": "deepseek-v4-flash",
+          "name": "DeepSeek V4 Flash",
+          "family": "deepseek-flash",
+          "attachment": false,
+          "reasoning": true,
+          "temperature": true,
+          "tool_call": true,
+          "interleaved": { "field": "reasoning_content" },
+          "release_date": "2026-07-31",
+          "modalities": { "input": ["text"], "output": ["text"] },
+          "limit": { "context": 1000000, "output": 384000 },
+          "cost": { "input": 0.14, "output": 0.28, "cache_read": 0.0028 }
+        },
+        "deepseek-v4-pro": {
+          "id": "deepseek-v4-pro",
+          "name": "DeepSeek V4 Pro",
+          "family": "deepseek-thinking",
+          "attachment": false,
+          "reasoning": true,
+          "temperature": true,
+          "tool_call": true,
+          "interleaved": { "field": "reasoning_content" },
+          "release_date": "2026-08-12",
+          "modalities": { "input": ["text"], "output": ["text"] },
+          "limit": { "context": 1000000, "output": 384000 },
+          "cost": { "input": 0.435, "output": 0.87, "cache_read": 0.003625 }
+        },
+        "deepseek-v4-flash-vision-exp": {
+          "id": "deepseek-v4-flash-vision-exp",
+          "name": "DeepSeek V4 Flash Vision Exp",
+          "family": "deepseek-flash",
+          "attachment": true,
+          "reasoning": true,
+          "temperature": true,
+          "tool_call": true,
+          "interleaved": { "field": "reasoning_content" },
+          "release_date": "2026-08-21",
+          "status": "beta",
+          "modalities": { "input": ["text", "image"], "output": ["text"] },
+          "limit": { "context": 1000000, "output": 384000 },
+          "cost": { "input": 0.14, "output": 0.28, "cache_read": 0.0028 }
+        }
+      }
+    }
   }
 }

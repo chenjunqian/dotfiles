@@ -14,7 +14,7 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="amuse"
 
 # ── proxy ──
-# Proxy is off by default; enable it with proxy-on / disable with proxy-off.
+# Proxy is on by default; disable it with proxy-off.
 # Ports come from ~/.zshrc.local (PROXY_HTTP_PORT / PROXY_SOCKS_PORT), default
 # 7890. On macOS, proxy-on reads the system proxy settings (System Settings >
 # Network > Proxies) when they are enabled.
@@ -56,6 +56,8 @@ proxy-on() {
   echo "Proxy enabled (${PROXY_HOST}:${PROXY_HTTP_PORT})"
 }
 
+proxy-on
+
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
@@ -78,3 +80,4 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 export GOROOT=$HOME/go
 export GOPATH=$HOME/go-workspace
 export PATH=$HOME/go/bin:$HOME/go-workspace/bin:$PATH
+export PATH="$HOME/.bun/bin:$PATH"
