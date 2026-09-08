@@ -31,6 +31,7 @@ Language-specific LSP configurations are in `lua/plugins/`:
 - `golang.lua` - gopls with unusedparams/shadow analysis and gofumpt
 - `typescript.lua` - ts_ls with formatting enabled + treesitter for tsx
 - `swift.lua` - sourcekit-lsp for Swift files
+- `markdown.lua` - render-markdown.nvim with heading icons, checkboxes, and tables
 
 These extend nvim-lspconfig with language server settings.
 
@@ -38,6 +39,8 @@ These extend nvim-lspconfig with language server settings.
 
 - `<Tab>` / `<C-Tab>` - Navigate buffers (next/previous)
 - `H` / `L` - Jump to beginning/end of line
+- `<leader>um` - Toggle in-buffer rendered markdown preview
+- `<leader>cp` - Toggle live browser markdown preview
 
 ## Code Style
 

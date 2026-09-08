@@ -34,9 +34,11 @@ This is a personal dotfiles configuration repository primarily used for storing 
   - `fzf-lua`: Fuzzy finder
   - `gitsigns.nvim`: Git integration
   - `grug-far.nvim`: Find and replace
+  - `markdown-preview.nvim`: Live browser markdown preview
   - `neo-tree.nvim`: File explorer
   - `noice.nvim`: UI improvements
   - `nvim-treesitter`: Syntax highlighting
+  - `render-markdown.nvim`: In-buffer rich rendered markdown preview
   - `todo-comments.nvim`: TODO highlighting
   - `trouble.nvim`: Diagnostics viewer
   - `which-key.nvim`: Keybinding helper
