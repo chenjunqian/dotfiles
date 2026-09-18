@@ -65,6 +65,18 @@ source $ZSH/oh-my-zsh.sh
 # opencode
 export PATH="$HOME/.opencode/bin:$PATH"
 
+opencode-clean-models() {
+  local state_file="${XDG_STATE_HOME:-$HOME/.local/state}/opencode/model.json"
+  if [ -f "$state_file" ]; then
+    cp "$state_file" "${state_file}.bak.$(date +%Y%m%d%H%M%S)"
+    jq '.recent = []' "$state_file" > "${state_file}.tmp" && mv "${state_file}.tmp" "$state_file"
+    echo "OpenCode recent model history cleared."
+  else
+    echo "No OpenCode model state file found at $state_file"
+  fi
+}
+
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

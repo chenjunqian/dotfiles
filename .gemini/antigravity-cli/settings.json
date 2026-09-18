@@ -1,0 +1,16 @@
+{
+  "allowNonWorkspaceAccess": true,
+  "model": "Gemini 3.8 Flash (High)",
+  "permissions": {
+    "allow": [
+      "read_file(*)",
+      "read_url(*)",
+      "write_file(~/.gemini/antigravity-cli)"
+    ],
+    "deny": [
+      "command(rm -rf /)",
+      "command(sudo*)"
+    ]
+  },
+  "toolPermission": "always-proceed"
+}

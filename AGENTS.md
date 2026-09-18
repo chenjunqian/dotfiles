@@ -8,6 +8,7 @@ This is a personal dotfiles configuration repository primarily used for storing 
 - **Tmux Configuration**: Terminal multiplexer settings
 - **Zsh Configuration**: Shell environment (Oh My Zsh, proxy helpers, NVM)
 - **Ghostty Configuration**: Terminal emulator settings
+- **Antigravity CLI (agy) Configuration**: AI CLI agent settings, permissions, and models
 - **Automated Installation Script**: Environment configuration for Ubuntu systems
 
 ## Main Files Description
@@ -18,6 +19,8 @@ This is a personal dotfiles configuration repository primarily used for storing 
 - `.tmux.conf` - Configuration file for Tmux terminal multiplexer
 - `.zshrc` - Zsh shell configuration (Oh My Zsh, proxy helpers, NVM)
 - `.config/ghostty/config.ghostty` - Ghostty terminal configuration
+- `.config/opencode/opencode.jsonc` - OpenCode AI assistant configuration
+- `.gemini/antigravity-cli/settings.json` - Antigravity CLI (`agy`) configuration
 - `quick_setup.sh` - Automated script for installing and configuring development environment on Ubuntu systems
 
 ### Configuration Details
@@ -62,6 +65,13 @@ This is a personal dotfiles configuration repository primarily used for storing 
   - `-`: Vertical window split
   - Mouse support enabled
 
+#### Antigravity CLI Configuration Features
+
+- **Configuration File**: `.gemini/antigravity-cli/settings.json`
+- **Default Model**: Configured model (e.g. Gemini 3.8 Flash High)
+- **Permissions**: Safe auto-allow permissions (file reading, specific directory writes) and command safety denylists (`rm -rf /`, `sudo*`)
+- **Tool Permissions**: Configured execution policies (`always-proceed`)
+
 ## Installation and Usage
 
 ### Ubuntu System Automatic Installation
@@ -79,7 +89,9 @@ This script will:
 4. Copy LazyVim configuration to ~/.config/nvim
 5. Copy tmux configuration to ~/.tmux.conf
 6. Copy ghostty configuration to ~/.config/ghostty
-7. Copy zsh configuration to ~/.zshrc
+7. Copy opencode configuration to ~/.config/opencode
+8. Copy Antigravity CLI configuration to ~/.gemini/antigravity-cli
+9. Copy zsh configuration to ~/.zshrc
 
 ### Manual Configuration Steps
 
@@ -123,19 +135,27 @@ This script will:
 dotfiles/
 ├── .config/
 │   ├── ghostty/
-│   │   └── config.ghostty  # Ghostty terminal config
-│   └── nvim/             # LazyVim configuration
-│       ├── lua/
-│       │   ├── config/   # Neovim configuration files
-│       │   └── plugins/  # Plugin specifications
-│       ├── init.lua      # Entry point
-│       ├── lazy-lock.json # Plugin lock file
-│       └── stylua.toml   # Lua formatter config
-├── .gitignore            # Git ignore file
-├── .tmux.conf           # Tmux configuration
-├── .zshrc               # Zsh configuration
-├── IFLOW.md             # Project documentation
-└── quick_setup.sh       # Ubuntu installation script
+│   │   ├── config.ghostty       # Ghostty terminal config
+│   │   ├── config.ghostty.linux # Linux-specific ghostty config
+│   │   └── config.ghostty.macos # macOS-specific ghostty config
+│   ├── nvim/                    # LazyVim configuration
+│   │   ├── lua/
+│   │   │   ├── config/          # Neovim configuration files
+│   │   │   └── plugins/         # Plugin specifications
+│   │   ├── init.lua             # Entry point
+│   │   ├── lazy-lock.json       # Plugin lock file
+│   │   └── stylua.toml          # Lua formatter config
+│   └── opencode/
+│       └── opencode.jsonc       # OpenCode AI configuration
+├── .gemini/
+│   └── antigravity-cli/
+│       └── settings.json        # Antigravity CLI configuration
+├── .gitignore                   # Git ignore file
+├── .tmux.conf                  # Tmux configuration
+├── .zshrc                      # Zsh configuration
+├── quick_setup.sh              # Automatic setup & symlinking script
+└── templates/
+    └── zshrc.local.example     # Machine-local zsh config template
 ```
 
 ## Maintenance Notes

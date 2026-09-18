@@ -15,6 +15,8 @@ SOURCE_ZSH_CONF="${SCRIPT_DIR}/.zshrc"
 TARGET_ZSH_CONF="${HOME}/.zshrc"
 SOURCE_OPencode_CONF="${SCRIPT_DIR}/.config/opencode/opencode.jsonc"
 TARGET_OPencode_CONF="${HOME}/.config/opencode/opencode.jsonc"
+SOURCE_AGY_CONF="${SCRIPT_DIR}/.gemini/antigravity-cli/settings.json"
+TARGET_AGY_CONF="${HOME}/.gemini/antigravity-cli/settings.json"
 SOURCE_ZSH_LOCAL_TEMPLATE="${SCRIPT_DIR}/templates/zshrc.local.example"
 TARGET_ZSH_LOCAL="${HOME}/.zshrc.local"
 TIMESTAMP="$(date +%Y%m%d%H%M%S)"
@@ -327,6 +329,9 @@ main() {
   [ -f "$SOURCE_OPencode_CONF" ] || fail "Source opencode config not found: ${SOURCE_OPencode_CONF}"
   symlink_config "$SOURCE_OPencode_CONF" "$TARGET_OPencode_CONF"
 
+  [ -f "$SOURCE_AGY_CONF" ] || fail "Source agy config not found: ${SOURCE_AGY_CONF}"
+  symlink_config "$SOURCE_AGY_CONF" "$TARGET_AGY_CONF"
+
   [ -f "$SOURCE_ZSH_CONF" ] || fail "Source zsh config not found: ${SOURCE_ZSH_CONF}"
   symlink_config "$SOURCE_ZSH_CONF" "$TARGET_ZSH_CONF"
 
@@ -346,10 +351,11 @@ main() {
 
   echo ""
   log "=== setup complete ==="
-  echo "  Neovim: nvim"
-  echo "  Tmux:   tmux"
+  echo "  Neovim:   nvim"
+  echo "  Tmux:     tmux"
   echo "  Ghostty:  ${TARGET_GHOSTTY_CONF} (+ config.ghostty.${PLATFORM})"
   echo "  opencode: ${TARGET_OPencode_CONF}"
+  echo "  agy:      ${TARGET_AGY_CONF}"
   echo "  Zsh:      ${TARGET_ZSH_CONF}"
   echo "  Local:    ${TARGET_ZSH_LOCAL}"
 }
