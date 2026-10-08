@@ -17,6 +17,12 @@ SOURCE_OPencode_CONF="${SCRIPT_DIR}/.config/opencode/opencode.jsonc"
 TARGET_OPencode_CONF="${HOME}/.config/opencode/opencode.jsonc"
 SOURCE_AGY_CONF="${SCRIPT_DIR}/.gemini/antigravity-cli/settings.json"
 TARGET_AGY_CONF="${HOME}/.gemini/antigravity-cli/settings.json"
+SOURCE_PI_CONF="${SCRIPT_DIR}/.pi/agent/settings.json"
+TARGET_PI_CONF="${HOME}/.pi/agent/settings.json"
+SOURCE_PI_THEMES_DIR="${SCRIPT_DIR}/.pi/agent/themes"
+TARGET_PI_THEMES_DIR="${HOME}/.pi/agent/themes"
+SOURCE_PI_EXTENSIONS_DIR="${SCRIPT_DIR}/.pi/agent/extensions"
+TARGET_PI_EXTENSIONS_DIR="${HOME}/.pi/agent/extensions"
 SOURCE_ZSH_LOCAL_TEMPLATE="${SCRIPT_DIR}/templates/zshrc.local.example"
 TARGET_ZSH_LOCAL="${HOME}/.zshrc.local"
 TIMESTAMP="$(date +%Y%m%d%H%M%S)"
@@ -332,6 +338,26 @@ main() {
   [ -f "$SOURCE_AGY_CONF" ] || fail "Source agy config not found: ${SOURCE_AGY_CONF}"
   symlink_config "$SOURCE_AGY_CONF" "$TARGET_AGY_CONF"
 
+  [ -f "$SOURCE_PI_CONF" ] || fail "Source pi config not found: ${SOURCE_PI_CONF}"
+  symlink_config "$SOURCE_PI_CONF" "$TARGET_PI_CONF"
+
+  [ -d "$SOURCE_PI_THEMES_DIR" ] || fail "Source pi themes not found: ${SOURCE_PI_THEMES_DIR}"
+  symlink_config "$SOURCE_PI_THEMES_DIR" "$TARGET_PI_THEMES_DIR"
+
+  [ -d "$SOURCE_PI_EXTENSIONS_DIR" ] || fail "Source pi extensions not found: ${SOURCE_PI_EXTENSIONS_DIR}"
+  symlink_config "$SOURCE_PI_EXTENSIONS_DIR" "$TARGET_PI_EXTENSIONS_DIR"
+
+  if need_cmd pi; then
+    log "Reconciling pi packages..."
+    if pi update --extensions; then
+      log "Pi packages reconciled"
+    else
+      warn "Failed to reconcile pi packages; run 'pi update --extensions' manually"
+    fi
+  else
+    warn "pi command not found; skipping pi packages (run 'pi update --extensions' after installing pi)"
+  fi
+
   [ -f "$SOURCE_ZSH_CONF" ] || fail "Source zsh config not found: ${SOURCE_ZSH_CONF}"
   symlink_config "$SOURCE_ZSH_CONF" "$TARGET_ZSH_CONF"
 
@@ -356,6 +382,7 @@ main() {
   echo "  Ghostty:  ${TARGET_GHOSTTY_CONF} (+ config.ghostty.${PLATFORM})"
   echo "  opencode: ${TARGET_OPencode_CONF}"
   echo "  agy:      ${TARGET_AGY_CONF}"
+  echo "  pi:       ${TARGET_PI_CONF} (+ themes and extensions)"
   echo "  Zsh:      ${TARGET_ZSH_CONF}"
   echo "  Local:    ${TARGET_ZSH_LOCAL}"
 }

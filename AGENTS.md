@@ -9,6 +9,7 @@ This is a personal dotfiles configuration repository primarily used for storing 
 - **Zsh Configuration**: Shell environment (Oh My Zsh, proxy helpers, NVM)
 - **Ghostty Configuration**: Terminal emulator settings
 - **Antigravity CLI (agy) Configuration**: AI CLI agent settings, permissions, and models
+- **Pi Agent Configuration**: Pi coding agent settings, default model, and UI preferences
 - **Automated Installation Script**: Environment configuration for Ubuntu systems
 
 ## Main Files Description
@@ -21,6 +22,7 @@ This is a personal dotfiles configuration repository primarily used for storing 
 - `.config/ghostty/config.ghostty` - Ghostty terminal configuration
 - `.config/opencode/opencode.jsonc` - OpenCode AI assistant configuration
 - `.gemini/antigravity-cli/settings.json` - Antigravity CLI (`agy`) configuration
+- `.pi/agent/settings.json` - Pi coding agent configuration
 - `quick_setup.sh` - Automated script for installing and configuring development environment on Ubuntu systems
 
 ### Configuration Details
@@ -72,6 +74,18 @@ This is a personal dotfiles configuration repository primarily used for storing 
 - **Permissions**: Safe auto-allow permissions (file reading, specific directory writes) and command safety denylists (`rm -rf /`, `sudo*`)
 - **Tool Permissions**: Configured execution policies (`always-proceed`)
 
+#### Pi Agent Configuration Features
+
+- **Configuration File**: `.pi/agent/settings.json` (symlinked to `~/.pi/agent/settings.json`)
+- **Default Model**: Not pinned in settings; the `restore-last-session` extension carries the model and thinking level over from the latest session (Pi auto-selects on the first-ever session)
+- **Theme**: Custom `gruvbox` dark theme (`.pi/agent/themes/gruvbox.json`, symlinked to `~/.pi/agent/themes`), matching the tmux gruvbox theme
+- **Packages**: `npm:pi-web-access` (web search, URL/PDF/YouTube/GitHub fetching). Works keyless via Exa MCP; optional API keys go in `~/.pi/agent/web-search.json`
+- **Extensions**: `restore-last-session.ts` (symlinked to `~/.pi/agent/extensions`) — new sessions inherit the model and thinking level of the latest previous session; falls back to scanning session history when the project has no record
+
+`quick_setup.sh` runs `pi update --extensions` after linking to (re)install declared packages.
+
+> Note: Pi also stores runtime state (e.g. `lastChangelogVersion`) in `settings.json`; commits may include those small updates after a Pi upgrade.
+
 ## Installation and Usage
 
 ### Ubuntu System Automatic Installation
@@ -91,7 +105,8 @@ This script will:
 6. Copy ghostty configuration to ~/.config/ghostty
 7. Copy opencode configuration to ~/.config/opencode
 8. Copy Antigravity CLI configuration to ~/.gemini/antigravity-cli
-9. Copy zsh configuration to ~/.zshrc
+9. Copy pi configuration to ~/.pi/agent
+10. Copy zsh configuration to ~/.zshrc
 
 ### Manual Configuration Steps
 
@@ -150,6 +165,13 @@ dotfiles/
 ├── .gemini/
 │   └── antigravity-cli/
 │       └── settings.json        # Antigravity CLI configuration
+├── .pi/
+│   └── agent/
+│       ├── settings.json        # Pi coding agent configuration
+│       ├── extensions/
+│       │   └── restore-last-session.ts  # Carry over model/thinking to new sessions
+│       └── themes/
+│           └── gruvbox.json     # Pi gruvbox theme
 ├── .gitignore                   # Git ignore file
 ├── .tmux.conf                  # Tmux configuration
 ├── .zshrc                      # Zsh configuration

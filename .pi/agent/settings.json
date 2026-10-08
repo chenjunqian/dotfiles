@@ -1,0 +1,7 @@
+{
+  "theme": "gruvbox",
+  "packages": [
+    "npm:pi-web-access"
+  ],
+  "hideThinkingBlock": false
+}
