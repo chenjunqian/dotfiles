@@ -17,6 +17,10 @@ return {
       pipe_table = {
         enabled = true,
         style = "full",
+        -- Wrap wide tables across multiple lines instead of letting Neovim
+        -- soft-wrap the row and break the table borders (requires nvim 0.11+,
+        -- conceal level 2/3 and tables with pipes on both sides).
+        wrap = true,
       },
       callout = {
         note = { raw = "[!NOTE]", rendered = "󰋽 Note", highlight = "RenderMarkdownInfo" },
