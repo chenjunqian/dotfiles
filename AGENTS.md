@@ -5,6 +5,7 @@
 This is a personal dotfiles configuration repository primarily used for storing and managing development environment configuration files. This repository focuses on providing unified development environment settings, including:
 
 - **LazyVim Configuration**: IDE configuration based on Neovim
+- **Python Toolchain**: uv-managed CPython (3.15) plus LazyVim's stock Python extra in Neovim
 - **Tmux Configuration**: Terminal multiplexer settings
 - **Zsh Configuration**: Shell environment (Oh My Zsh, proxy helpers, NVM)
 - **Ghostty Configuration**: Terminal emulator settings
@@ -52,8 +53,41 @@ This is a personal dotfiles configuration repository primarily used for storing 
   - `lua/config/options.lua`: Neovim options (relative line numbers disabled)
   - `lua/config/keymaps.lua`: Custom key mappings
   - `lua/config/autocmds.lua`: Auto commands
-  - `lua/config/lazy.lua`: Plugin manager configuration
+  - `lua/config/lazy.lua`: Plugin manager configuration (LazyVim extras are imported here)
   - `lua/plugins/`: Plugin specifications
+
+#### Python Support
+
+Python is LazyVim's stock `lang.python` extra — imported in `lua/config/lazy.lua`,
+no custom plugin spec file:
+
+- **LSP**: `pyright` (type checking) and `ruff` (linting + formatting), installed
+  automatically by Mason on first use. `basedpyright` and the old `ruff_lsp` can be
+  selected instead via `vim.g.lazyvim_python_lsp` / `vim.g.lazyvim_python_ruff` in
+  `lua/config/options.lua` (must be set there, LazyVim reads them while importing the extra).
+- **Formatting**: no Python formatter is configured in `conform.nvim`, so `<leader>cf`
+  falls back to the Ruff LSP. The `ruff_format` / `ruff_organize_imports` conform
+  formatters can be enabled by adding them to `formatters_by_ft`.
+- **Virtual envs**: `venv-selector.nvim` — `<leader>cv` (or `:VenvSelect`) picks the
+  interpreter for the current project. Created by `uv venv` (`.venv/`) works out of the box.
+- **Tests / debugging**: `neotest-python` and `nvim-dap-python` ship with the extra but
+  are only activated when the LazyVim extras `dap.core` and `test.core` are enabled
+  (`:LazyExtras`).
+
+Python itself is provided by [uv](https://docs.astral.sh/uv/), installed by
+`quick_setup.sh`:
+
+```bash
+uv python install --default 3.15   # latest stable CPython
+uv python list                     # installed interpreters
+uv venv --python 3.15              # create .venv for a project
+uv add --dev pytest ruff           # project dev dependencies
+```
+
+This puts `~/.local/bin/python`, `python3` and `python3.15` on `PATH` ahead of the
+Ubuntu system interpreters, which stay untouched at `/usr/bin/python3` (3.14).
+The script also installs `python3-venv` / `python3-dev` for the system Python.
+The `uv` and `ruff` Oh My Zsh plugins in `.zshrc` add its aliases/completions.
 
 #### Tmux Configuration Features
 
@@ -99,16 +133,17 @@ bash quick_setup.sh
 ```
 
 This script will:
-1. Install system dependencies (curl, wget, unzip, tmux)
+1. Install system dependencies (curl, wget, unzip, tmux, python3-venv, python3-dev)
 2. Install Neovim
-3. Backup existing Neovim configurations
-4. Copy LazyVim configuration to ~/.config/nvim
-5. Copy tmux configuration to ~/.tmux.conf
-6. Copy ghostty configuration to ~/.config/ghostty
-7. Copy opencode configuration to ~/.config/opencode
-8. Copy Antigravity CLI configuration to ~/.gemini/antigravity-cli
-9. Copy pi configuration to ~/.pi/agent
-10. Copy zsh configuration to ~/.zshrc
+3. Install uv and the latest stable CPython (becomes the default `python`/`python3`)
+4. Back up existing Neovim configurations
+5. Copy LazyVim configuration to ~/.config/nvim
+6. Copy tmux configuration to ~/.tmux.conf
+7. Copy ghostty configuration to ~/.config/ghostty
+8. Copy opencode configuration to ~/.config/opencode
+9. Copy Antigravity CLI configuration to ~/.gemini/antigravity-cli
+10. Copy pi configuration to ~/.pi/agent
+11. Copy zsh configuration to ~/.zshrc
 
 ### Manual Configuration Steps
 

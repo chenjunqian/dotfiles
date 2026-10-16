@@ -26,6 +26,9 @@ TARGET_PI_EXTENSIONS_DIR="${HOME}/.pi/agent/extensions"
 SOURCE_ZSH_LOCAL_TEMPLATE="${SCRIPT_DIR}/templates/zshrc.local.example"
 TARGET_ZSH_LOCAL="${HOME}/.zshrc.local"
 TIMESTAMP="$(date +%Y%m%d%H%M%S)"
+# Python minor version managed by uv. Use 3.15 for the latest stable CPython;
+# override with PYTHON_VERSION=3.14 bash quick_setup.sh
+PYTHON_VERSION="${PYTHON_VERSION:-3.15}"
 
 case "$(uname -s)" in
   Darwin)
@@ -125,6 +128,9 @@ install_linux_packages() {
   if need_cmd apt-get; then
     run_root apt-get update
     run_root apt-get install -y curl git unzip tar gzip ripgrep fd-find tmux
+    # The system python3 ships without ensurepip on Debian/Ubuntu, so venv
+    # creation needs these. The uv-managed Python does not.
+    run_root apt-get install -y python3-venv python3-dev
     return
   fi
   if need_cmd dnf; then
@@ -217,6 +223,51 @@ install_neovim_linux() {
   log "Neovim installed to ~/.local/nvim"
 }
 
+# ── python (uv) ──
+
+install_uv() {
+  ensure_local_bin
+  if [ -x "${HOME}/.local/bin/uv" ]; then
+    log "uv already installed: $("${HOME}/.local/bin/uv" --version)"
+    return
+  fi
+  if need_cmd uv; then
+    log "uv already installed: $(uv --version)"
+    return
+  fi
+  log "Installing uv..."
+  if need_cmd curl; then
+    curl -fsSL https://astral.sh/uv/install.sh | sh
+  elif need_cmd wget; then
+    wget -qO- https://astral.sh/uv/install.sh | sh
+  else
+    warn "curl or wget is required to install uv, skipping"
+    return
+  fi
+  log "uv installed to ~/.local/bin/uv"
+}
+
+install_python() {
+  local uv_bin="${HOME}/.local/bin/uv"
+  if [ ! -x "$uv_bin" ]; then
+    if need_cmd uv; then
+      uv_bin="$(command -v uv)"
+    else
+      warn "uv not found, skipping Python install"
+      return
+    fi
+  fi
+
+  log "Installing Python ${PYTHON_VERSION} via uv (and making it the default python3)..."
+  if "$uv_bin" python install --upgrade --default "$PYTHON_VERSION"; then
+    log "Python ${PYTHON_VERSION} installed (python3.${PYTHON_VERSION#3.} + python/python3 shims in ~/.local/bin)"
+  else
+    warn "Failed to install Python ${PYTHON_VERSION}"
+  fi
+}
+
+# ── dependencies ──
+
 install_deps() {
   case "$(uname -s)" in
     Darwin)
@@ -226,6 +277,8 @@ install_deps() {
       install_linux_packages
       install_lazygit_linux
       install_neovim_linux
+      install_uv
+      install_python
       ;;
     *)
       fail "Unsupported operating system: $(uname -s)"
@@ -383,6 +436,7 @@ main() {
   echo "  opencode: ${TARGET_OPencode_CONF}"
   echo "  agy:      ${TARGET_AGY_CONF}"
   echo "  pi:       ${TARGET_PI_CONF} (+ themes and extensions)"
+  echo "  Python:   ${HOME}/.local/bin/python3 (uv-managed, $("${HOME}/.local/bin/python3" --version 2>/dev/null || echo "Python ${PYTHON_VERSION}"))"
   echo "  Zsh:      ${TARGET_ZSH_CONF}"
   echo "  Local:    ${TARGET_ZSH_LOCAL}"
 }

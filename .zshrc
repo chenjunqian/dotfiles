@@ -58,7 +58,7 @@ proxy-on() {
 
 proxy-on
 
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting uv ruff)
 
 source $ZSH/oh-my-zsh.sh
 
