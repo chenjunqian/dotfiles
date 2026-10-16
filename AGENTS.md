@@ -80,7 +80,9 @@ This is a personal dotfiles configuration repository primarily used for storing 
 - **Default Model**: Not pinned in settings; the `restore-last-session` extension carries the model and thinking level over from the latest session (Pi auto-selects on the first-ever session)
 - **Theme**: Custom `gruvbox` dark theme (`.pi/agent/themes/gruvbox.json`, symlinked to `~/.pi/agent/themes`), matching the tmux gruvbox theme
 - **Packages**: `npm:pi-web-access` (web search, URL/PDF/YouTube/GitHub fetching). Works keyless via Exa MCP; optional API keys go in `~/.pi/agent/web-search.json`
-- **Extensions**: `restore-last-session.ts` (symlinked to `~/.pi/agent/extensions`) — new sessions inherit the model and thinking level of the latest previous session; falls back to scanning session history when the project has no record
+- **Extensions**: (symlinked to `~/.pi/agent/extensions`)
+  - `restore-last-session.ts` — new sessions inherit the model and thinking level of the latest previous session; falls back to scanning session history when the project has no record
+  - `notify-on-done.ts` — notifies when a run settles (`agent_settled`) and Pi is waiting for input. Backend chosen automatically: OSC 777/99 terminal notification (wrapped in a tmux DCS passthrough inside tmux), `notify-send` desktop notification, or BEL. Override with `PI_NOTIFY_BACKEND=auto|terminal|desktop|bell|off` and suppress short runs with `PI_NOTIFY_MIN_MS` (e.g. `5000`)
 
 `quick_setup.sh` runs `pi update --extensions` after linking to (re)install declared packages.
 
@@ -169,6 +171,7 @@ dotfiles/
 │   └── agent/
 │       ├── settings.json        # Pi coding agent configuration
 │       ├── extensions/
+│       │   ├── notify-on-done.ts        # Notify when a run settles
 │       │   └── restore-last-session.ts  # Carry over model/thinking to new sessions
 │       └── themes/
 │           └── gruvbox.json     # Pi gruvbox theme
