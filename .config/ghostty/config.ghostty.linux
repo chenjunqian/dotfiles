@@ -1,3 +1,5 @@
 # Linux-specific overrides
 command = /usr/bin/zsh
 font-size = 8
+# 兜底：万一合成字体缺失，中文至少还能显示（主字体见 config.ghostty）
+font-family = Noto Sans Mono CJK SC

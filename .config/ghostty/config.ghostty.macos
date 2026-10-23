@@ -3,3 +3,5 @@
 # left unset here and Ghostty falls back to the $SHELL lookup.
 font-size = 10
 background-blur = true
+# 兜底：万一合成字体缺失，中文至少还能显示（见 config.ghostty 的 font-family）
+font-family = PingFang SC

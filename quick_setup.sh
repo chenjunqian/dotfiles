@@ -29,6 +29,11 @@ TIMESTAMP="$(date +%Y%m%d%H%M%S)"
 # Python minor version managed by uv. Use 3.15 for the latest stable CPython;
 # override with PYTHON_VERSION=3.14 bash quick_setup.sh
 PYTHON_VERSION="${PYTHON_VERSION:-3.15}"
+# Terminal font: JetBrains Mono (Latin) + Maple Mono (CJK), 2:1 metrics, Nerd Font icons.
+# Bump the version tag to pick up upstream changes.
+FUSION_FONT_VERSION="${FUSION_FONT_VERSION:-1.2304.79}"
+FUSION_FONT_FAMILY="JetBrains Maple Mono"
+FUSION_FONT_URL="https://github.com/SpaceTimee/Fusion-JetBrainsMapleMono/releases/download/${FUSION_FONT_VERSION}/JetBrainsMapleMono-NF-XX-XX-XX.zip"
 
 case "$(uname -s)" in
   Darwin)
@@ -154,6 +159,45 @@ install_linux_packages() {
     return
   fi
   fail "Unsupported Linux package manager"
+}
+
+install_terminal_font() {
+  case "$(uname -s)" in
+    Darwin) local font_dir="${HOME}/Library/Fonts/JetBrainsMapleMono" ;;
+    *)      local font_dir="${HOME}/.local/share/fonts/JetBrainsMapleMono" ;;
+  esac
+
+  if [ -f "${font_dir}/JetBrainsMapleMono-Regular.ttf" ]; then
+    log "Font already installed: ${FUSION_FONT_FAMILY}"
+    return
+  fi
+  if need_cmd fc-list && fc-list 2>/dev/null | grep -Fq "${FUSION_FONT_FAMILY}"; then
+    log "Font already available via fontconfig: ${FUSION_FONT_FAMILY}"
+    return
+  fi
+
+  need_cmd curl || need_cmd wget || fail "curl or wget is required to install fonts"
+
+  local tmp
+  tmp="$(mktemp -d)"
+  log "Downloading ${FUSION_FONT_FAMILY} ${FUSION_FONT_VERSION}..."
+  download_file "${FUSION_FONT_URL}" "${tmp}/font.zip" || fail "Failed to download ${FUSION_FONT_FAMILY}"
+
+  mkdir -p "$font_dir"
+  if need_cmd unzip; then
+    unzip -o -q -j "${tmp}/font.zip" \
+      '*-Regular.ttf' '*-Bold.ttf' '*-Italic.ttf' '*-BoldItalic.ttf' \
+      '*-Medium.ttf' '*-MediumItalic.ttf' -d "$font_dir" \
+      || fail "Failed to extract ${FUSION_FONT_FAMILY}"
+  else
+    fail "unzip is required to install fonts"
+  fi
+  rm -rf "$tmp"
+
+  if need_cmd fc-cache; then
+    fc-cache -f >/dev/null 2>&1 || warn "fc-cache failed; run 'fc-cache -f' manually"
+  fi
+  log "Font installed: ${FUSION_FONT_FAMILY} -> ${font_dir}"
 }
 
 install_lazygit_linux() {
@@ -362,6 +406,7 @@ main() {
   log "Detected OS: $(uname -s)"
 
   install_deps
+  install_terminal_font
   link_fd_if_needed
 
   [ -d "$SOURCE_NVIM_DIR" ] || fail "Source nvim config not found: ${SOURCE_NVIM_DIR}"
@@ -433,6 +478,7 @@ main() {
   echo "  Neovim:   nvim"
   echo "  Tmux:     tmux"
   echo "  Ghostty:  ${TARGET_GHOSTTY_CONF} (+ config.ghostty.${PLATFORM})"
+  echo "  Font:     ${FUSION_FONT_FAMILY} (ghostty terminal font)"
   echo "  opencode: ${TARGET_OPencode_CONF}"
   echo "  agy:      ${TARGET_AGY_CONF}"
   echo "  pi:       ${TARGET_PI_CONF} (+ themes and extensions)"

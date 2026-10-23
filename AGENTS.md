@@ -134,16 +134,29 @@ bash quick_setup.sh
 
 This script will:
 1. Install system dependencies (curl, wget, unzip, tmux, python3-venv, python3-dev)
-2. Install Neovim
-3. Install uv and the latest stable CPython (becomes the default `python`/`python3`)
-4. Back up existing Neovim configurations
-5. Copy LazyVim configuration to ~/.config/nvim
-6. Copy tmux configuration to ~/.tmux.conf
-7. Copy ghostty configuration to ~/.config/ghostty
-8. Copy opencode configuration to ~/.config/opencode
-9. Copy Antigravity CLI configuration to ~/.gemini/antigravity-cli
-10. Copy pi configuration to ~/.pi/agent
-11. Copy zsh configuration to ~/.zshrc
+2. Install the terminal font (JetBrains Maple Mono: JetBrains Mono Latin + Maple Mono CJK, 2:1 aligned, Nerd Font icons)
+3. Install Neovim
+4. Install uv and the latest stable CPython (becomes the default `python`/`python3`)
+5. Back up existing Neovim configurations
+6. Copy LazyVim configuration to ~/.config/nvim
+7. Copy tmux configuration to ~/.tmux.conf
+8. Copy ghostty configuration to ~/.config/ghostty
+9. Copy opencode configuration to ~/.config/opencode
+10. Copy Antigravity CLI configuration to ~/.gemini/antigravity-cli
+11. Copy pi configuration to ~/.pi/agent
+12. Copy zsh configuration to ~/.zshrc
+
+### Terminal font
+
+Ghostty is configured with `font-family = JetBrains Maple Mono`
+([Fusion-JetBrainsMapleMono](https://github.com/SpaceTimee/Fusion-JetBrainsMapleMono), OFL-1.1):
+JetBrains Mono glyphs for Latin, Maple Mono for CJK, strictly 2:1 cell metrics,
+bundled Nerd Font icons. This avoids the mixed-width misalignment you get from
+teaming JetBrains Mono (0.6em advance) with a 1em-wide CJK fallback.
+
+`quick_setup.sh` installs it to `~/.local/share/fonts/JetBrainsMapleMono`
+(`~/Library/Fonts/JetBrainsMapleMono` on macOS) when the family is missing.
+Bump `FUSION_FONT_VERSION` in `quick_setup.sh` to upgrade.
 
 ### Manual Configuration Steps
 
