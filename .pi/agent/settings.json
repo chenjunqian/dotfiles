@@ -1,8 +1,7 @@
 {
   "theme": "gruvbox",
   "packages": [
-    "npm:pi-web-access",
-    "npm:pi-antigravity-acp-provider"
+    "npm:pi-web-access"
   ],
   "hideThinkingBlock": false,
   "lastChangelogVersion": "1.4.0",
