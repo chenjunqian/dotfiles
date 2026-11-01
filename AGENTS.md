@@ -70,9 +70,10 @@ no custom plugin spec file:
   formatters can be enabled by adding them to `formatters_by_ft`.
 - **Virtual envs**: `venv-selector.nvim` — `<leader>cv` (or `:VenvSelect`) picks the
   interpreter for the current project. Created by `uv venv` (`.venv/`) works out of the box.
-- **Tests / debugging**: `neotest-python` and `nvim-dap-python` ship with the extra but
-  are only activated when the LazyVim extras `dap.core` and `test.core` are enabled
-  (`:LazyExtras`).
+- **Tests / debugging**: `neotest-python` ships with the extra but is only activated
+  when the LazyVim extra `test.core` is enabled (`:LazyExtras`). DAP-related
+  plugins (`nvim-dap`, `nvim-dap-python`, `nvim-dap-go`, `nvim-dap-ui`, etc.) are
+  disabled in `lua/plugins/dap.lua`.
 
 Python itself is provided by [uv](https://docs.astral.sh/uv/), installed by
 `quick_setup.sh`:
