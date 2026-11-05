@@ -14,13 +14,13 @@ return {
           git_status_open = true,
           git_untracked = true,
           follow_file = true,
-          -- 悬浮窗口显示
+          -- Floating window layout
           layout = {
-            preview = false, -- 不显示预览窗口
+            preview = false, -- Hide the preview window
             layout = {
               box = "vertical",
-              backdrop = false, -- 不遮罩背景
-              -- 小于 1 表示按屏幕比例：0.8 x 0.8 ≈ 60% 屏幕面积
+              backdrop = false, -- Do not dim the background
+              -- Values below 1 are screen ratios: 0.8 x 0.8 is about 60% of the screen
               width = 0.8,
               min_width = 40,
               height = 0.8,
@@ -32,7 +32,7 @@ return {
               { win = "list", border = "none" },
             },
           },
-          -- 打开文件后自动关闭悬浮窗口
+          -- Close the floating picker after opening a file
           jump = { close = true },
         },
       },

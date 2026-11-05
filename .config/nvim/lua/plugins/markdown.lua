@@ -1,13 +1,28 @@
 return {
-  -- marksman（markdown LSP）会索引整个工程：在含数千个 md 的仓库里（如
-  -- deepseek-harness，4761 个 md）它索引完后会为每个文档推一份诊断，Neovim 的
-  -- handle_diagnostics 会给每个 URI 建 buffer，导致 1635 个 buffer / 700MB+
-  -- Lua 堆 / 主线程 100% 空转卡死。这里不需要 md 的跳转与链接诊断，直接关掉。
-  -- 预览（<leader>cp）、render-markdown 渲染、treesitter 高亮、prettier /
-  -- markdownlint-cli2 / markdown-toc 均不受影响。
+  -- marksman (the markdown LSP) indexes the whole project: in a repo with
+  -- thousands of .md files (4761 in deepseek-harness) it pushes diagnostics for
+  -- every document after indexing, and Neovim's handle_diagnostics creates a
+  -- buffer per URI - 1635 buffers / 700MB+ Lua heap / main thread spinning at
+  -- 100%. We don't need go-to-definition or link diagnostics for md here, so
+  -- turn it off. Preview (<leader>cp), render-markdown, treesitter highlighting,
+  -- prettier / markdownlint-cli2 / markdown-toc are all unaffected.
   {
     "neovim/nvim-lspconfig",
     opts = { servers = { marksman = { enabled = false } } },
+  },
+
+  -- markdownlint-cli2 (invoked by nvim-lint) floods writing and preview with
+  -- MD013 line-length, MD033 inline-HTML, MD041 first-line-heading and other
+  -- warnings/errors. Drop the markdown linter entirely; formatting
+  -- (<leader>cf, prettier / markdown-toc) is unaffected.
+  {
+    "mfussenegger/nvim-lint",
+    opts = function(_, opts)
+      opts.linters_by_ft = opts.linters_by_ft or {}
+      opts.linters_by_ft.markdown = nil
+      opts.linters_by_ft["markdown.mdx"] = nil
+      return opts
+    end,
   },
 
   {

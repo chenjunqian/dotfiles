@@ -1,6 +1,6 @@
-# JetBrains Mono (Latin) + Maple Mono (CJK) 合成字体，中英严格 2:1 等宽，自带 Nerd Font 图标
-# 来源: https://github.com/SpaceTimee/Fusion-JetBrainsMapleMono (OFL-1.1)
-# 由 quick_setup.sh 安装到 ~/.local/share/fonts/JetBrainsMapleMono
+# Fusion font: JetBrains Mono (Latin) + Maple Mono (CJK), strictly 2:1 cell metrics, Nerd Font icons included
+# Source: https://github.com/SpaceTimee/Fusion-JetBrainsMapleMono (OFL-1.1)
+# Installed by quick_setup.sh to ~/.local/share/fonts/JetBrainsMapleMono
 font-family = JetBrains Maple Mono
 background-opacity = 0.92
 keybind = ctrl+v=paste_from_clipboard

@@ -56,6 +56,23 @@ This is a personal dotfiles configuration repository primarily used for storing 
   - `lua/config/lazy.lua`: Plugin manager configuration (LazyVim extras are imported here)
   - `lua/plugins/`: Plugin specifications
 
+#### Markdown Support
+
+LazyVim's `lang.markdown` extra is imported, with diagnostics turned off in
+`lua/plugins/markdown.lua` + `lua/config/autocmds.lua`:
+
+- **No lint diagnostics**: `nvim-lint`'s `markdownlint-cli2` linter is removed for
+  `markdown` / `markdown.mdx`, and `FileType` autocmds disable diagnostics display for
+  `markdown`, `markdown.mdx`, `rmd`, `norg`, `org` buffers — so MD013 line-length /
+  MD033 inline-HTML warnings no longer clutter writing and preview.
+- **marksman LSP disabled**: it indexes the whole project and floods Neovim with
+  per-document diagnostics (buffer/memory blowup on repos with thousands of `.md`).
+- **Still available**: `<leader>cp` (`markdown-preview.nvim`), rich in-buffer rendering
+  (`render-markdown.nvim`, toggle with `<leader>um`), treesitter highlighting, and
+  formatting (`prettier`, `markdown-toc` via `<leader>cf`; the `markdownlint-cli2`
+  conform formatter only fires when markdownlint diagnostics exist, so it stays idle).
+- Temporarily re-enable diagnostics with `:lua vim.diagnostic.enable(true)`.
+
 #### Python Support
 
 Python is LazyVim's stock `lang.python` extra — imported in `lua/config/lazy.lua`,

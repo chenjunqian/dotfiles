@@ -14,3 +14,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
   desc = "Enable autoformat for HTML/CSS",
 })
+
+-- Markdown: hide diagnostics (markdownlint's MD013 line-length / MD033 inline HTML
+-- warnings are very noisy while writing and previewing). Re-enable temporarily with
+-- :lua vim.diagnostic.enable(true).
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "markdown.mdx", "rmd", "norg", "org" },
+  callback = function(ev)
+    vim.diagnostic.enable(false, { bufnr = ev.buf })
+  end,
+  desc = "Disable diagnostics in markdown buffers",
+})
