@@ -1,0 +1,14 @@
+[Unit]
+Description=Keep the dsh web profile config linked to the dotfiles repo
+
+[Service]
+Type=simple
+# dsh writes cordis.patch.yml / package.json / pnpm-lock.yaml through
+# writeFileAtomic (temp file + rename); the rename replaces our symlink with a
+# regular file. This watcher adopts the new content into the repo and re-links.
+ExecStart=@REPO_DIR@/scripts/dsh-sync.sh watch
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target

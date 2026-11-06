@@ -41,3 +41,17 @@
   name: "@deepseek-ai/dsh-client-ui-theme"
   config:
     preference: system
+    fontSize: 14
+    textFontFamily: ""
+    codeFontFamily: '"JetBrains Maple Mono"'
+    terminalFontFamily: '"JetBrains Maple Mono"'
+- id: git-panel
+  name: "@xbzbing/dsh-git-panel"
+  config:
+    timeoutMs: 8000
+    maxBytes: 4194304
+    maxChanges: 1000
+    refreshIntervalMs: 30000
+    defaultDiffView: unified
+    fontDelta: 0
+    changesView: tree

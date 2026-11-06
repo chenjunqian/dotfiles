@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@dongasai/dsh-editor':
+        specifier: 1.2.0
+        version: 1.2.0
       '@xbzbing/dsh-git-panel':
         specifier: 1.12.0
         version: 1.12.0
@@ -16,6 +19,9 @@ importers:
         version: 1.73.12
 
 packages:
+
+  '@dongasai/dsh-editor@1.2.0':
+    resolution: {integrity: sha512-2q16rVykcNfp2SEkrRbFIls46M+b7XokCn8uM5+Y5A8hdDmwfAN12i+E6bCHNCdP+ncJ8VVsGkaJ+SK7J6fDhw==}
 
   '@xbzbing/dsh-git-panel@1.12.0':
     resolution: {integrity: sha512-upx3THxspbNG7IwYX7sBywVTlsnMJmnyk6BHMaxr7geHo0/A06eLNPTJyiv6DT37h+r0ZzdZPED89mB3e7gBYw==}
@@ -55,6 +61,8 @@ packages:
     engines: {node: '>=20.18.1'}
 
 snapshots:
+
+  '@dongasai/dsh-editor@1.2.0': {}
 
   '@xbzbing/dsh-git-panel@1.12.0': {}
 

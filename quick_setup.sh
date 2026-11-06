@@ -121,6 +121,34 @@ symlink_config() {
   log "Symlinked: ${dst} -> ${src}"
 }
 
+# dsh rewrites its profile files through writeFileAtomic (temp file + rename),
+# and a rename replaces a symlink with a regular file. This user service
+# re-links them, adopting whatever dsh just wrote into the repo.
+install_dsh_watch() {
+  if ! command -v systemctl >/dev/null 2>&1; then
+    warn "systemctl not found; skipping the dsh link watcher"
+    return 0
+  fi
+  if ! systemctl --user show-environment >/dev/null 2>&1; then
+    warn "no systemd user session; skipping the dsh link watcher"
+    return 0
+  fi
+  local template="${SCRIPT_DIR}/scripts/systemd/dsh-sync.service.in"
+  local unit="${HOME}/.config/systemd/user/dsh-sync.service"
+  if [ ! -f "$template" ]; then
+    warn "dsh link watcher template not found: ${template}"
+    return 0
+  fi
+  mkdir -p "$(dirname "$unit")"
+  sed "s|@REPO_DIR@|${SCRIPT_DIR}|g" "$template" > "$unit"
+  systemctl --user daemon-reload
+  if systemctl --user enable --now dsh-sync.service >/dev/null 2>&1; then
+    log "dsh link watcher enabled: systemctl --user status dsh-sync"
+  else
+    warn "failed to start dsh-sync.service; run 'systemctl --user status dsh-sync' after setup"
+  fi
+}
+
 # ── package installation ──
 
 install_macos_packages() {
@@ -456,15 +484,16 @@ main() {
     warn "pi command not found; skipping pi packages (run 'pi update --extensions' after installing pi)"
   fi
 
-  # dsh rewrites its own profile files atomically, so these are copied in rather
-  # than symlinked; scripts/dsh-sync.sh save copies live edits back into the repo.
+  # dsh writes its profile files atomically (temp + rename), which replaces a
+  # symlink with a regular file; the user service installed below re-links it.
   if [ -d "${SCRIPT_DIR}/.dsh/profiles/web" ]; then
-    log "Restoring dsh (DeepSeek Harness) profile config..."
-    if sh "${SCRIPT_DIR}/scripts/dsh-sync.sh" restore; then
-      log "dsh profile config restored"
+    log "Linking dsh (DeepSeek Harness) profile config..."
+    if sh "${SCRIPT_DIR}/scripts/dsh-sync.sh" link; then
+      log "dsh profile config linked"
     else
-      warn "failed to restore dsh profile config; run scripts/dsh-sync.sh restore manually"
+      warn "failed to link dsh profile config; run scripts/dsh-sync.sh link manually"
     fi
+    install_dsh_watch
   else
     warn "dsh profile config not found: ${SCRIPT_DIR}/.dsh/profiles/web"
   fi
@@ -495,7 +524,7 @@ main() {
   echo "  opencode: ${TARGET_OPencode_CONF}"
   echo "  agy:      ${TARGET_AGY_CONF}"
   echo "  pi:       ${TARGET_PI_CONF} (+ themes and extensions)"
-  echo "  dsh:      ${HOME}/.dsh/profiles/web (sync back with scripts/dsh-sync.sh save)"
+  echo "  dsh:      ${HOME}/.dsh/profiles/web (symlinked to .dsh/; watcher: dsh-sync.service)"
   echo "  Python:   ${HOME}/.local/bin/python3 (uv-managed, $("${HOME}/.local/bin/python3" --version 2>/dev/null || echo "Python ${PYTHON_VERSION}"))"
   echo "  Zsh:      ${TARGET_ZSH_CONF}"
   echo "  Local:    ${TARGET_ZSH_LOCAL}"
