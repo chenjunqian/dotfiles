@@ -456,6 +456,19 @@ main() {
     warn "pi command not found; skipping pi packages (run 'pi update --extensions' after installing pi)"
   fi
 
+  # dsh rewrites its own profile files atomically, so these are copied in rather
+  # than symlinked; scripts/dsh-sync.sh save copies live edits back into the repo.
+  if [ -d "${SCRIPT_DIR}/.dsh/profiles/web" ]; then
+    log "Restoring dsh (DeepSeek Harness) profile config..."
+    if sh "${SCRIPT_DIR}/scripts/dsh-sync.sh" restore; then
+      log "dsh profile config restored"
+    else
+      warn "failed to restore dsh profile config; run scripts/dsh-sync.sh restore manually"
+    fi
+  else
+    warn "dsh profile config not found: ${SCRIPT_DIR}/.dsh/profiles/web"
+  fi
+
   [ -f "$SOURCE_ZSH_CONF" ] || fail "Source zsh config not found: ${SOURCE_ZSH_CONF}"
   symlink_config "$SOURCE_ZSH_CONF" "$TARGET_ZSH_CONF"
 
@@ -482,6 +495,7 @@ main() {
   echo "  opencode: ${TARGET_OPencode_CONF}"
   echo "  agy:      ${TARGET_AGY_CONF}"
   echo "  pi:       ${TARGET_PI_CONF} (+ themes and extensions)"
+  echo "  dsh:      ${HOME}/.dsh/profiles/web (sync back with scripts/dsh-sync.sh save)"
   echo "  Python:   ${HOME}/.local/bin/python3 (uv-managed, $("${HOME}/.local/bin/python3" --version 2>/dev/null || echo "Python ${PYTHON_VERSION}"))"
   echo "  Zsh:      ${TARGET_ZSH_CONF}"
   echo "  Local:    ${TARGET_ZSH_LOCAL}"
