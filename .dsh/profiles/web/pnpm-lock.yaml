@@ -12,8 +12,11 @@ importers:
         specifier: 1.2.0
         version: 1.2.0
       '@xbzbing/dsh-git-panel':
-        specifier: 1.12.0
-        version: 1.12.0
+        specifier: 1.13.0
+        version: 1.13.0
+      dsh-cost-meter:
+        specifier: ^1.9.58
+        version: 1.9.58
       dshmarket:
         specifier: ^1.73.12
         version: 1.73.12
@@ -23,8 +26,8 @@ packages:
   '@dongasai/dsh-editor@1.2.0':
     resolution: {integrity: sha512-2q16rVykcNfp2SEkrRbFIls46M+b7XokCn8uM5+Y5A8hdDmwfAN12i+E6bCHNCdP+ncJ8VVsGkaJ+SK7J6fDhw==}
 
-  '@xbzbing/dsh-git-panel@1.12.0':
-    resolution: {integrity: sha512-upx3THxspbNG7IwYX7sBywVTlsnMJmnyk6BHMaxr7geHo0/A06eLNPTJyiv6DT37h+r0ZzdZPED89mB3e7gBYw==}
+  '@xbzbing/dsh-git-panel@1.13.0':
+    resolution: {integrity: sha512-/c4upCoVkXrnOSJYpvReOrUDpd9giCQIVeZ99r8ChigukrVybwJ68IyStxkwywSQQk6fYpjlDQQK/pSARE+fmA==}
     engines: {node: ^22.19.0 || >=24.0.0}
     peerDependencies:
       '@deepseek-ai/cordis': ^4.0.1
@@ -37,8 +40,22 @@ packages:
       '@deepseek-ai/dsh':
         optional: true
 
+  acorn@8.15.0:
+    resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
+
+  dsh-cost-meter@1.9.58:
+    resolution: {integrity: sha512-a/As+2H2zSoeiH/ZwHU3VwhgszuHR6hHQF4MQirWicUk7CKcjmrxTZehGN1kXqmFfm2QZfquuI3p1XHonHxlNA==}
+    engines: {dsh: '>=0.2.0-rc.1 <0.3.0-0', node: '>=20'}
+    os: [darwin, linux, win32]
+    hasBin: true
+    peerDependencies:
+      '@deepseek-ai/dsh-credentials': '>=0.2.0-rc.1 <0.3.0-0 || >=0.2.1-0 <0.3.0-0 || >=0.2.2-0 <0.3.0-0'
+      '@deepseek-ai/dsh-home-paths': '>=0.2.0-rc.1 <0.3.0-0 || >=0.2.1-0 <0.3.0-0 || >=0.2.2-0 <0.3.0-0'
 
   dshmarket@1.73.12:
     resolution: {integrity: sha512-Us3qHfp3FLMvMyLvj+VYdA3K90DGGXikwODQheSC00BCWIxLIYBjA9ZCknWhxgUwT5L9N3Nf3ndKit0QUECO6Q==}
@@ -60,13 +77,23 @@ packages:
     resolution: {integrity: sha512-mLyPQnHwUxaM/rideoK/+KL8DaAJLRl4aBCfmX444aCSLnIaomqPLtNRe2jdCYcsk5wZzXrDIQC8ZeYNRAYyIA==}
     engines: {node: '>=20.18.1'}
 
+  zod@4.6.6:
+    resolution: {integrity: sha512-4UmzQUF5fxvfcYHlbjBmejU+w+hbDnWFx4aS8kBx7nPBHcO2SqPbpAG8snbdg+Xse4pRefR98hgjFgIMCI/UhA==}
+
 snapshots:
 
   '@dongasai/dsh-editor@1.2.0': {}
 
-  '@xbzbing/dsh-git-panel@1.12.0': {}
+  '@xbzbing/dsh-git-panel@1.13.0': {}
+
+  acorn@8.15.0: {}
 
   argparse@2.0.1: {}
+
+  dsh-cost-meter@1.9.58:
+    dependencies:
+      acorn: 8.15.0
+      zod: 4.6.6
 
   dshmarket@1.73.12:
     dependencies:
@@ -78,3 +105,5 @@ snapshots:
       argparse: 2.0.1
 
   undici@7.30.2: {}
+
+  zod@4.6.6: {}

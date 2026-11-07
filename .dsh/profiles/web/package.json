@@ -3,7 +3,8 @@
   "private": true,
   "dependencies": {
     "@dongasai/dsh-editor": "1.2.0",
-    "@xbzbing/dsh-git-panel": "1.12.0",
+    "@xbzbing/dsh-git-panel": "1.13.0",
+    "dsh-cost-meter": "^1.9.58",
     "dshmarket": "^1.73.12"
   },
   "dsh": {
@@ -12,8 +13,9 @@
         "@deepseek-ai/dsh-base",
         "@deepseek-ai/dsh-web-app",
         "dshmarket",
-        "@xbzbing/dsh-git-panel",
-        "@dongasai/dsh-editor"
+        "@dongasai/dsh-editor",
+        "dsh-cost-meter",
+        "@xbzbing/dsh-git-panel"
       ]
     }
   }
