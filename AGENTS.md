@@ -153,8 +153,8 @@ rebuildable (dependencies), machine-local runtime state (sessions, attachments,
 caches, `storages/`), or secret (`.credentials.yaml` holds the API key in
 cleartext and is never committed).
 
-- **Profile**: `web` only. `~/.dsh/profiles/tui` is left untouched (its patch
-  layer is an empty list).
+- **Profile**: `web` only. Only `~/.dsh/profiles/web` is tracked; any other
+  profile under `~/.dsh/profiles` is left alone and is not backed up here.
 - **Tracked files** (`.dsh/profiles/web/`):
   - `cordis.patch.yml` — the real config: default model (`deepseek-flash`,
     reasoning effort `high`), provider models, permission presets and their

@@ -49,7 +49,7 @@ Commands:
   watch     Keep everything in sync (every $DSH_SYNC_INTERVAL seconds, default 2).
             Run by the systemd user service installed by quick_setup.sh.
 
-Only the web profile is tracked; the tui profile is left untouched.
+Only the web profile is tracked; other profiles are left untouched.
 EOF
 }
 
