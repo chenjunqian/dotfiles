@@ -5,8 +5,9 @@
     "@dingyi222666/dsh-session-notification": "0.2.7",
     "@dongasai/dsh-editor": "1.2.0",
     "@xbzbing/dsh-git-panel": "1.13.2",
-    "dsh-cost-meter": "^1.9.61",
-    "dshmarket": "^1.73.16"
+    "dsh-cost-meter": "1.9.64",
+    "dsh-update-checker": "1.7.3",
+    "dshmarket": "1.73.17"
   },
   "dsh": {
     "profile": {
@@ -17,7 +18,8 @@
         "@dongasai/dsh-editor",
         "dsh-cost-meter",
         "@xbzbing/dsh-git-panel",
-        "@dingyi222666/dsh-session-notification"
+        "@dingyi222666/dsh-session-notification",
+        "dsh-update-checker"
       ]
     }
   }

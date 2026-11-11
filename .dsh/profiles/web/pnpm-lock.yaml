@@ -18,11 +18,14 @@ importers:
         specifier: 1.13.2
         version: 1.13.2
       dsh-cost-meter:
-        specifier: ^1.9.61
-        version: 1.9.61
+        specifier: 1.9.64
+        version: 1.9.64
+      dsh-update-checker:
+        specifier: 1.7.3
+        version: 1.7.3
       dshmarket:
-        specifier: ^1.73.16
-        version: 1.73.16
+        specifier: 1.73.17
+        version: 1.73.17
 
 packages:
 
@@ -54,8 +57,8 @@ packages:
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
-  dsh-cost-meter@1.9.61:
-    resolution: {integrity: sha512-vrrxAr+n2Vv+vKMhsNxby9tyXYx1DlBQ9kXULNcEyLEdlSIZJPj76LiziHdjc//PwluW0VxSZGWEQJRTseG9+Q==}
+  dsh-cost-meter@1.9.64:
+    resolution: {integrity: sha512-jaGamzmN5M45oG3R++kieN3VOo6gyHfcHnkdCLik1Ho3NdLzU5wIO4LMkAnpbIPjBEis1XO92hi36GXlB9T+nA==}
     engines: {dsh: '>=0.2.0-rc.1 <0.3.0-0', node: '>=20'}
     os: [darwin, linux, win32]
     hasBin: true
@@ -63,8 +66,13 @@ packages:
       '@deepseek-ai/dsh-credentials': '>=0.2.0-rc.1 <0.3.0-0 || >=0.2.1-0 <0.3.0-0 || >=0.2.2-0 <0.3.0-0'
       '@deepseek-ai/dsh-home-paths': '>=0.2.0-rc.1 <0.3.0-0 || >=0.2.1-0 <0.3.0-0 || >=0.2.2-0 <0.3.0-0'
 
-  dshmarket@1.73.16:
-    resolution: {integrity: sha512-pfQuF7p4JWXPDEZ0mqByc7xrv7371N222J/NomsJT958wBSfdaMQR/EZT2JBvMOXbJ91fVUbCoKxMd6yuH+K2g==}
+  dsh-update-checker@1.7.3:
+    resolution: {integrity: sha512-FrtDKnBPrHjnxMcQE2/zdE4MWgMgXVu6sgNSiBQKOcxcfhrKdXwnvp9excew7ZVrRqU9mUkPU+5HamAeE73PNA==}
+    peerDependencies:
+      react: ^18.2.0
+
+  dshmarket@1.73.17:
+    resolution: {integrity: sha512-yISchdb/p4pDMTvsEyPtX60oTlv3FlyiSzcSI07dShf9WBuM12yyj5WSVTSJb3ZA7cgniyArAJEwBIi3eZVrww==}
     peerDependencies:
       '@deepseek-ai/cordis': ^4.0.1
       '@deepseek-ai/dsh-settings': ^0.1.0-rc.7 || ^0.1.1-rc.2 || ^0.1.2-alpha.2 || ^0.2.0-rc.1 || ^0.2.1-alpha.3 || ^0.2.1-rc.1
@@ -98,12 +106,14 @@ snapshots:
 
   argparse@2.0.1: {}
 
-  dsh-cost-meter@1.9.61:
+  dsh-cost-meter@1.9.64:
     dependencies:
       acorn: 8.15.0
       zod: 4.6.6
 
-  dshmarket@1.73.16:
+  dsh-update-checker@1.7.3: {}
+
+  dshmarket@1.73.17:
     dependencies:
       js-yaml: 4.3.2
       undici: 7.30.2
