@@ -93,3 +93,25 @@ export GOROOT=$HOME/go
 export GOPATH=$HOME/go-workspace
 export PATH=$HOME/go/bin:$HOME/go-workspace/bin:$PATH
 export PATH="$HOME/.bun/bin:$PATH"
+
+# ── Colima (Docker runtime) ──
+# Start Colima asynchronously in the background without blocking the terminal
+# (forwards extra arguments, e.g. `colima-bg --memory 8`).
+# Logs are written to /tmp/colima-bg.log; check with `colima status` and stop with `colima stop`.
+colima-bg() {
+  if ! command -v colima >/dev/null 2>&1; then
+    echo "colima 未安装。" >&2
+    return 1
+  fi
+  if [ -n "${COLIMA_HOME:-}" ] && [ ! -d "$(dirname "$COLIMA_HOME")" ]; then
+    echo "未找到 COLIMA_HOME 所在目录 $(dirname "$COLIMA_HOME")，请先挂载外置开发盘（例如执行 mount-dev）。" >&2
+    return 1
+  fi
+  if colima status >/dev/null 2>&1; then
+    echo "Colima 已在运行中。"
+    return 0
+  fi
+  local log_file="/tmp/colima-bg.log"
+  nohup colima start "$@" >"$log_file" 2>&1 </dev/null &!
+  echo "Colima 已在后台启动 (PID $!, 日志: $log_file)"
+}
