@@ -2,6 +2,7 @@
 # Source: https://github.com/SpaceTimee/Fusion-JetBrainsMapleMono (OFL-1.1)
 # Installed by quick_setup.sh to ~/.local/share/fonts/JetBrainsMapleMono
 font-family = JetBrains Maple Mono
+theme = Gruvbox Dark
 background-opacity = 0.92
 keybind = ctrl+v=paste_from_clipboard
 
