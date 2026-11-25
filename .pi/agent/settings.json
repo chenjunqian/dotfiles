@@ -1,12 +1,13 @@
 {
   "theme": "gruvbox",
   "packages": [
-    "npm:pi-web-access"
+    "npm:pi-web-access",
+    "npm:@pi-archimedes/session-name"
   ],
   "hideThinkingBlock": false,
-  "lastChangelogVersion": "1.5.2",
+  "lastChangelogVersion": "1.6.0",
   "enableSkillCommands": true,
   "extensionChangelogVersions": {
-    "{\"source\":\"npm:pi-web-access\",\"scope\":\"user\"}": "0.47.0"
+    "{\"source\":\"npm:pi-web-access\",\"scope\":\"user\"}": "0.48.0"
   }
 }
